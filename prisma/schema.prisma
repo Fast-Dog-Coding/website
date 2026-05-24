@@ -1,0 +1,59 @@
+// Fast Dog Coding — Prisma Schema
+// Source: Technical Design Spec § 2
+//
+// Architecture: M:N reusable sections via page_sections join table.
+// Pages are routing shells. Sections are standalone content atoms.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Page {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug         String        @unique @db.VarChar(255)
+  parentSlug   String?       @db.VarChar(255)  @map("parent_slug")
+  parent       Page?         @relation("PageChildren", fields: [parentSlug], references: [slug])
+  children     Page[]        @relation("PageChildren")
+  title        String        @db.VarChar(500)
+  metaDesc     String?       @map("meta_desc")
+  isPublished  Boolean       @default(false)   @map("is_published")
+  isNav        Boolean       @default(false)   @map("is_nav")
+  navLabel     String?       @db.VarChar(100)  @map("nav_label")
+  sortOrder    Int           @default(0)       @map("sort_order")
+  createdAt    DateTime      @default(now())   @map("created_at")
+  updatedAt    DateTime      @updatedAt        @map("updated_at")
+  pageSections PageSection[]
+
+  @@map("pages")
+}
+
+model Section {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug         String?       @unique @db.VarChar(100)
+  type         String        @db.VarChar(100)
+  data         Json          @default("{}")
+  createdAt    DateTime      @default(now())   @map("created_at")
+  updatedAt    DateTime      @updatedAt        @map("updated_at")
+  pageSections PageSection[]
+
+  @@index([type])
+  @@map("sections")
+}
+
+model PageSection {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pageId      String   @db.Uuid  @map("page_id")
+  sectionId   String   @db.Uuid  @map("section_id")
+  sortOrder   Int      @default(0)  @map("sort_order")
+  displayHint String?  @db.VarChar(50)  @map("display_hint")
+  page        Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  section     Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, sectionId])
+  @@index([pageId, sortOrder])
+  @@map("page_sections")
+}

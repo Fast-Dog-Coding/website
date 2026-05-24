@@ -1,26 +1,142 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Fast Dog Coding — Design System Tokens
+ * Source: Technical Design Spec § 3
+ *
+ * Dark-mode-first. There is no light mode.
+ * All token names map 1:1 to Tailwind utility classes:
+ *   bg-background, text-primary, border-border, shadow-lift, etc.
+ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* ── Colors ── */
+  --color-background: #111111;     /* Primary dark background */
+  --color-surface: #1A1A1A;        /* Card and panel backgrounds */
+  --color-border: #2D2D2D;         /* Subtle borders and dividers */
+  --color-primary: #F5F5F5;        /* Primary text, headings */
+  --color-secondary: #A3A3A3;      /* Sub-text, metadata, disabled states */
+  --color-accent: #BE9541;         /* The "warm handshake" accent — CTAs and highlights */
+  --color-accent-hover: #D1A758;   /* Lighter accent for hover states */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* ── Typography ── */
+  --font-sans: var(--font-geist-sans), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  /* ── Font Sizes ── */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.1;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1;
+
+  /* ── Border Radius ── */
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-md: 0.25rem;    /* 4px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 1rem;       /* 16px */
+
+  /* ── Shadows ── */
+  --shadow-lift: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-accent-glow: 0 0 12px rgba(190, 149, 65, 0.4);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
 }
+
+/* ── Prose styles for dark-mode Markdown rendering ── */
+.prose-fdc {
+  line-height: 1.75;
+}
+
+.prose-fdc h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-primary);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose-fdc h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-fdc p {
+  color: var(--color-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.prose-fdc strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.prose-fdc em {
+  color: var(--color-secondary);
+}
+
+.prose-fdc ul,
+.prose-fdc ol {
+  color: var(--color-secondary);
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.prose-fdc li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-fdc ul li {
+  list-style-type: disc;
+}
+
+.prose-fdc ol li {
+  list-style-type: decimal;
+}
+
+.prose-fdc hr {
+  border-color: var(--color-border);
+  margin: 2rem 0;
+}
+
+.prose-fdc a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  transition: color 150ms;
+}
+
+.prose-fdc a:hover {
+  color: var(--color-accent-hover);
+}
+
+.prose-fdc blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+  color: var(--color-secondary);
+  font-style: italic;
+  margin: 1.5rem 0;
+}
+

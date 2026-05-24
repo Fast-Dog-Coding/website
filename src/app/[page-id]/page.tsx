@@ -1,8 +1,8 @@
 /**
- * Home Page
+ * Universal Top-Level Page Handler
  *
- * Fetches the 'home' page record and renders its sections.
- * Source: TDS § 1 — "app/page.tsx fetches slug='home'"
+ * Handles all routes: /gallery, /services, /about, /contact, etc.
+ * Source: TDS § 1 — "app/[page-id]/page.tsx"
  */
 
 import { gqlFetch } from "@/lib/gql/fetch";
@@ -12,28 +12,37 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type { PageQueryResponse } from "@/types";
 
-// Fully static after first render; revalidated on-demand via /api/revalidate
 export const revalidate = false;
 
-export async function generateMetadata(): Promise<Metadata> {
+interface PageProps {
+  params: Promise<{ "page-id": string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { "page-id": pageId } = await params;
+
   const { page } = await gqlFetch<PageQueryResponse>(PAGE_QUERY, {
-    slug: "home",
+    slug: pageId,
   });
 
   if (!page) return {};
 
   return {
-    title: page.title,
+    title: `${page.title} — Fast Dog Coding`,
     description: page.metaDesc,
   };
 }
 
-export default async function HomePage() {
+export default async function TopLevelPage({ params }: PageProps) {
+  const { "page-id": pageId } = await params;
+
   const { page } = await gqlFetch<PageQueryResponse>(PAGE_QUERY, {
-    slug: "home",
+    slug: pageId,
   });
 
-  if (!page) notFound();
+  if (!page || !page.isPublished) notFound();
 
   return <SectionRenderer sections={page.sections} />;
 }
