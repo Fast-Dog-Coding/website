@@ -25,7 +25,9 @@ export function TestimonialSection({
   // Compact mode: pull-quote style (used on home page, exhibit pages)
   if (displayHint === "compact") {
     const snippet =
-      snippets && snippets.length > 0 ? snippets[0] : content;
+      snippets && snippets.length > 0
+        ? snippets[Math.floor(Math.random() * snippets.length)]
+        : content;
 
     return (
       <section className="w-full py-16 md:py-24">

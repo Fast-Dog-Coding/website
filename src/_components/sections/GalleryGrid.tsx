@@ -41,16 +41,13 @@ export async function GalleryGrid({
   return (
     <section className="w-full py-16 md:py-24 bg-surface border-y border-border">
       <div className="container mx-auto max-w-7xl px-4">
-        <h2 className="text-4xl font-bold tracking-tight text-primary text-center">
-          Curated Showcases
-        </h2>
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {displayPages.map((page) => {
             // Extract data from the exhibit section
             const exhibitSection = page.sections?.find(
               (s) => s.type === "exhibit"
             );
-            const exhibitData = (exhibitSection?.data ?? {}) as ExhibitData;
+            const exhibitData = (exhibitSection?.data ?? {}) as unknown as ExhibitData;
 
             return (
               <Card
@@ -65,13 +62,6 @@ export async function GalleryGrid({
                     <p className="text-base text-secondary">
                       {exhibitData.lede}
                     </p>
-                  )}
-                  {exhibitData.tech_stack && exhibitData.tech_stack.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {exhibitData.tech_stack.map((tech) => (
-                        <Tag key={tech}>{tech}</Tag>
-                      ))}
-                    </div>
                   )}
                 </div>
               </Card>

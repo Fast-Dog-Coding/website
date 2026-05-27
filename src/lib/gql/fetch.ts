@@ -5,10 +5,11 @@
  * POSTs to the local GraphQL endpoint and returns typed data.
  */
 
+const PORT = process.env.PORT || "3000";
 const GRAPHQL_ENDPOINT =
   process.env.NEXT_PUBLIC_SITE_URL
     ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/graphql`
-    : "http://localhost:3000/api/graphql";
+    : `http://localhost:${PORT}/api/graphql`;
 
 interface GraphQLResponse<T> {
   data?: T;

@@ -67,6 +67,15 @@ body {
   line-height: 1.75;
 }
 
+.prose-fdc h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-primary);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
 .prose-fdc h2 {
   font-size: 1.875rem;
   font-weight: 700;

@@ -69,6 +69,8 @@ export function CTASection({ data }: { data: Record<string, unknown> }) {
             <a
               key={channel.icon}
               href={channel.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface p-6 text-center transition-colors duration-200 hover:border-accent hover:bg-background"
             >
               <ChannelIcon icon={channel.icon} />

@@ -37,7 +37,7 @@ export async function SiteFooter() {
 
         {/* Legal */}
         <div className="flex items-center gap-4 text-sm text-secondary">
-          <span>&copy; {currentYear} Fast Dog Coding, LLC.</span>
+          <span>&copy; {currentYear} <span className="text-primary">Fast Dog Coding, LLC.</span></span>
           <a
             href="/legal"
             className="transition-colors duration-150 hover:text-primary"

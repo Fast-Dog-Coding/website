@@ -17,6 +17,7 @@ import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+import { EXHIBITS, TESTIMONIALS } from "./seed-content";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
@@ -27,7 +28,7 @@ const prisma = new PrismaClient({ adapter });
 /** Create a section and return it */
 async function createSection(
   type: string,
-  data: Record<string, unknown>,
+  data: any,
   slug?: string
 ) {
   return prisma.section.create({
@@ -67,32 +68,32 @@ async function main() {
   // ── Contact Channels Configuration ──
   const CONTACT_CHANNELS = [
     {
-      label: "Ping me on LinkedIn",
+      label: "Ping Grant on LinkedIn",
       short_label: "LinkedIn",
-      href: "https://www.linkedin.com/in/grantlindsay/",
+      href: "https://www.linkedin.com/in/grant-lindsay-us/",
       icon: "linkedin",
       micro_copy: "For professional networking and industry chat.",
     },
     {
-      label: "Send me your thoughts via email",
+      label: "Send us your thoughts via email",
       short_label: "Email",
-      href: "mailto:grant@fastdogcoding.com",
+      href: "mailto:info@fastdogcoding.com",
       icon: "email",
       micro_copy: "For detailed project inquiries and attachments.",
     },
     {
       label: "Book 25 minutes to talk",
       short_label: "Calendar",
-      href: "https://cal.com/grant-lindsay",
+      href: "https://cal.com/grant-lindsay-7wiujq/25min",
       icon: "calendar",
       micro_copy: "For a focused, no-obligation discovery call.",
     },
     {
-      label: "Ask my AI Concierge",
+      label: "Ask our AI Concierge",
       short_label: "AI Concierge",
-      href: "/chat",
+      href: "https://candidate-concierge.fastdogcoding.com/",
       icon: "ai",
-      micro_copy: "For instant answers to common questions about my work.",
+      micro_copy: "For instant answers to questions about Grant's work.",
     },
   ];
 
@@ -118,84 +119,15 @@ async function main() {
 
   // ── Testimonials (standalone, reusable) ──
 
-  const testimonialJason = await createSection(
-    "testimonial",
-    {
-      name: "Jason Lickliter",
-      role: "Full-Stack Developer / Solutions Consultant",
-      company: "KS2",
-      content:
-        "Grant and I worked together at KS2 across the full stack—and he consistently delivered. No drama, no handholding required. He'd take ownership of a feature, think through the edge cases before they became production incidents, and ship clean TypeScript that didn't make the next developer want to rewrite everything. If you need someone who can own critical systems and work autonomously without creating tech debt landmines, Grant's your guy.",
-      snippets: [
-        "He consistently delivered. No drama, no handholding required.",
-        "If you need someone who can own critical systems and work autonomously without creating tech debt landmines, Grant's your guy.",
-      ],
-    },
-    "testimonial-jason"
-  );
-
-  const testimonialLuis = await createSection(
-    "testimonial",
-    {
-      name: "Luis Garcia-Perez",
-      role: "Lead Software Architect",
-      company: "",
-      content:
-        "He has a strong eye for clean, scalable TypeScript and a natural ability to solve complex architectural challenges without losing sight of the user experience. Beyond his technical skills, Grant is a collaborative teammate who's always willing to share knowledge and help the team move faster.",
-      snippets: [
-        "A strong eye for clean, scalable TypeScript and a natural ability to solve complex architectural challenges.",
-      ],
-    },
-    "testimonial-luis"
-  );
-
-  const testimonialAndrew = await createSection(
-    "testimonial",
-    {
-      name: "Andrew Hamilton",
-      role: "Director of Client Engineering",
-      company: "REDspace",
-      content:
-        "Grant is a very strong software engineer who is able to architect and implement complex solutions of any scale. He is a very thorough and detail oriented technical problem solver with a ton of experience to bring to any team. On top of his technical experience Grant brings his great personality and passion to enhance any team dynamic.",
-      snippets: [
-        "His architectural foresight saved us six months of rework and set a new standard for our platform.",
-        "A very thorough and detail oriented technical problem solver with a ton of experience to bring to any team.",
-      ],
-    },
-    "testimonial-andrew"
-  );
-
-  const testimonialCaro = await createSection(
-    "testimonial",
-    {
-      name: "Caro Urquhart",
-      role: "Senior Full Stack Software Developer",
-      company: "",
-      content:
-        "Grant is one of the most talented software engineers I have worked with. Excellent hard skills from database to the frontend. Highly skilled architecturing features, products, and proposing solutions to complex problems. A very reliable, rock solid professional, taking ownership of features and organizing tasks for the team.",
-      snippets: [
-        "One of the most talented software engineers I have worked with.",
-        "A very reliable, rock solid professional, taking ownership of features and organizing tasks for the team.",
-      ],
-    },
-    "testimonial-caro"
-  );
-
-  const testimonialJenn = await createSection(
-    "testimonial",
-    {
-      name: "Jenn Priske",
-      role: "Senior Executive",
-      company: "REDspace Inc.",
-      content:
-        "I had the distinct pleasure of working with Grant for about 10 years and I hope I get the chance again. Grant is always eager to learn new things, he is a lifelong learner. A strong developer who is meticulous in his approach to code. If you have the opportunity to work with Grant, I highly recommend you take it!",
-      snippets: [
-        "A strong developer who is meticulous in his approach to code.",
-        "If you have the opportunity to work with Grant, I highly recommend you take it!",
-      ],
-    },
-    "testimonial-jenn"
-  );
+  const testimonialBySlug = new Map<
+    string,
+    Awaited<ReturnType<typeof createSection>>
+  >();
+  for (const { slug, data } of TESTIMONIALS) {
+    const section = await createSection("testimonial", data, slug);
+    testimonialBySlug.set(slug, section);
+  }
+  const testimonialAndrew = testimonialBySlug.get("testimonial-andrew")!;
 
   // ════════════════════════════════════════════════════════════════
   // 2. PAGE-SPECIFIC SECTIONS
@@ -208,7 +140,7 @@ async function main() {
     {
       heading: "Principal-Level Architecture. Enterprise-Grade Execution.",
       subheading:
-        "I design and build the robust, scalable digital foundations that drive your business forward.",
+        "We design and build the robust, scalable digital foundations that drive your business forward.",
       cta_label: "Explore the Showcases",
       cta_href: "/gallery",
     },
@@ -226,13 +158,14 @@ async function main() {
 
   // ── Gallery Page Sections ──
 
-  const galleryProse = await createSection(
-    "prose",
+  const galleryHero = await createSection(
+    "hero",
     {
-      markdown:
+      heading: "Exhibit Gallery",
+      subheading:
         "Each project represents a distinct challenge and a tailored architectural solution. The common thread is a relentless focus on performance, scalability, and measurable business impact. This is a curated selection of work that demonstrates a commitment to technical excellence under real-world constraints.",
     },
-    "prose-gallery-intro"
+    "hero-gallery"
   );
 
   const galleryGrid = await createSection(
@@ -264,29 +197,32 @@ async function main() {
         "## Core Capabilities",
         "",
         "### Full-Stack Architecture & Design",
-        "From greenfield system design to refactoring legacy platforms, I create comprehensive architectural blueprints that ensure scalability, security, and maintainability for the full technology stack.",
+        "From greenfield system design to refactoring legacy platforms, we create comprehensive architectural blueprints that ensure scalability, security, and maintainability for the full technology stack.",
         "",
         "### API Design & Integration",
-        "I specialize in designing and implementing clean, robust, and well-documented APIs (REST, GraphQL) that serve as the reliable backbone for your applications and third-party integrations.",
+        "We specialize in designing and implementing clean, robust, and well-documented APIs (REST, GraphQL) that serve as the reliable backbone for your applications and third-party integrations.",
         "",
         "### Performance Optimization & Scalability",
-        "I identify and resolve performance bottlenecks in existing applications, re-architecting systems for high-throughput, low-latency environments to handle enterprise-level scale.",
+        "We identify and resolve performance bottlenecks in existing applications, re-architecting systems for high-throughput, low-latency environments to handle enterprise-level scale.",
         "",
         "### Technical Leadership & Team Mentorship",
-        "Acting as a force multiplier, I provide senior-level guidance, establish best practices, conduct code reviews, and mentor engineering teams to elevate their technical capabilities.",
+        "Acting as a force multiplier, we provide senior-level guidance, establish best practices, conduct code reviews, and mentor engineering teams to elevate their technical capabilities.",
         "",
         "---",
         "",
         "## Engagement Models",
         "",
-        "### 1099 Contract Engagements",
-        "For well-defined, long-term projects requiring dedicated architectural leadership and hands-on development. I integrate directly with your team to drive technical initiatives from concept to completion.",
+        "### Contract Engagements",
+        "For well-defined, long-term projects requiring dedicated architectural leadership and hands-on development. We integrate directly with your team to drive technical initiatives from concept to completion.",
         "",
         "### Advisory & Retainer",
-        "For organizations needing ongoing, high-level technical guidance. This model provides consistent access for strategic planning, architectural reviews, and critical decision-making support without a full-time commitment.",
+        "Think, fractional. For organizations needing ongoing, high-level technical guidance. This model provides consistent access for strategic planning, architectural reviews, and critical decision-making support without a full-time commitment.",
         "",
         "### Project-Based Scopes",
         "For specific, outcome-oriented initiatives like a performance audit, an API design project, or a proof-of-concept build. We'll define the scope, deliverables, and timeline to meet a precise business objective.",
+        "",
+        "### Full-Time Employment",
+        "While Fast Dog Coding operates primarily as a consultancy, we are occasionally open to direct-hire technical leadership roles. These are reserved for exceptional, remote-only opportunities—a 'unicorn' alignment of a compelling mission, great people, and a strong engineering culture.",
       ].join("\n"),
     },
     "prose-services"
@@ -299,7 +235,7 @@ async function main() {
     {
       heading: "About",
       subheading:
-        "The architect, the philosophy, and the greyhound that started it all.",
+        "The architect, the philosophy, and the greyhounds that started it all.",
       cta_label: "Explore the Showcases",
       cta_href: "/gallery",
     },
@@ -310,23 +246,31 @@ async function main() {
     "prose",
     {
       markdown: [
-        "Hello, I'm the architect and principal engineer behind Fast Dog Coding. For over a decade, I've partnered with enterprise clients and ambitious startups to solve complex technical challenges. My work lives at the intersection of pragmatic engineering and strategic business vision. I build systems that are not only technically elegant but also resilient, scalable, and aligned with long-term goals.",
+        "Hello, I'm Grant Lindsay, the Principal Software Architect and founder of Fast Dog Coding. For over 15 years, I've partnered with global enterprises and ambitious startups to solve high-stakes technical challenges—specializing in cloud migrations, legacy modernization, and AI-driven automation. I build technical solutions that solve real business problems. My focus is on engineering systems that are resilient, scalable, and simple for teams to maintain.",
         "",
         "I take my work seriously. I don't take myself seriously.",
         "",
         "## The Origin Story",
         "",
-        "People often ask about the name. It comes from a retired racing greyhound I adopted years ago. His name was Dash. On the track, he was an explosive athlete, all focused, efficient power. At home, he was the laziest creature you've ever met — a master of conserving energy.",
+        "People often ask about the name. It wasn't born in a marketing brainstorm; it was born out of international legal compliance.",
         "",
-        "That duality struck me as the perfect metaphor for great software architecture. It should be incredibly powerful and fast when it needs to be, but also calm, efficient, and stable at rest. It's about applying force intelligently, not wastefully. So, Fast Dog Coding isn't about rushing; it's about building with focused, purposeful speed.",
+        "In 2014, I landed a major engagement with a fantastic Canadian firm. Because I am a U.S. resident, cross-border regulations meant they couldn't hire me as a traditional employee. To make the partnership work, I needed to stand up an LLC, and I needed a name fast.",
         "",
-        "(And yes, a picture of the original Fast Dog may appear here one day, pending his approval.)",
+        "At the time, my wife and I had adopted three retired racing greyhounds: Rio, Wavorly, and Oriole. I wanted the company name to honor them, but using the word 'Greyhound' felt like an open invitation for a confusing legal battle with a certain bus line ('No, ma'am, I can't book you a ticket to Cleveland, I'm an application developer'). ",
+        "",
+        "'Fast Dog Coding' made the shortlist, the LLC registration was clear, and a business was born.",
+        "",
+        "While the legal origin is purely practical, the metaphor remains perfect. Greyhounds are famous for a unique dichotomy: they are explosive, powerful athletes on the track, but absolute couch potatoes at home who master the art of conserving energy. ",
+        "",
+        "Great software architecture should behave exactly the same way. The end-user application should be incredibly fast and explosive when handling peak enterprise loads, but the experience of maintaining and evolving the code should be calm, low-stress, and blissfully uneventful. It’s about applying computational force intelligently on the track, so your team can conserve its energy at rest. ",
         "",
         "## My Philosophy",
         "",
-        "My approach is simple: listen intently, think deeply, and build deliberately. I believe the best solutions emerge from a clear understanding of the problem, not a blind attachment to a particular technology. I function as a partner, not just a contractor, embedding with your team to provide technical leadership and mentorship that lasts beyond the engagement.",
+        "My approach is simple: listen carefully, think deeply, and build deliberately. I believe the best solutions emerge from a clear understanding of the business problem, not a blind attachment to a trendy framework. I function as a true partner, embedding with teams to provide technical leadership and mentorship that elevates everyone involved.",
         "",
-        "When I'm not designing systems, you can find me exploring backcountry trails or trying to figure out why my 3D prints keep failing.",
+        "When I'm not 'swapping engines mid-flight' on legacy servers, you can usually find me walking to clear my mind, playing low-stress video games, or traveling to discover local foods and meet new people. ",
+        "",
+        "I also have a deep fascination with languages. I can understand French (si vous parlez plus lentement) and am currently tackling the structural challenge of learning Japanese.",
         "",
         "Speaking of which, why do programmers prefer dark mode?",
         "",
@@ -343,7 +287,7 @@ async function main() {
     {
       heading: "Start a Conversation",
       subheading:
-        "Choose the channel that works best for you. I'm ready to discuss your next technical challenge and explore how I can contribute to your success.",
+        "Choose the channel that works best for you. We're ready to discuss your next technical challenge and explore how we can contribute to your success.",
     },
     "hero-contact"
   );
@@ -357,82 +301,6 @@ async function main() {
       subheading: "What clients and colleagues have to say.",
     },
     "hero-testimonials"
-  );
-
-  // ── Exhibit Sections ──
-
-  const exhibitHomeSalesOne = await createSection(
-    "exhibit",
-    {
-      title: "HomeSalesOne",
-      client: "KS2 Technologies",
-      role: "Principal Full-Stack Developer",
-      lede: "Enterprise home sales office automation — augmenting in-house teams to deliver high-value features for enterprise customers.",
-      challenge:
-        "KS2 Technologies needed a principal-level developer to augment their in-house engineering team on a complex, multi-tenant enterprise platform. The system serves home sales offices nationwide, managing everything from lead tracking to closing documentation.",
-      approach:
-        "Working as an embedded contractor, I integrated directly with the product team to deliver high-impact features across the full stack. This included optimizing database queries spanning both relational (PostgreSQL, DB2) and NoSQL (IBM Cloudant) data stores, building responsive Angular interfaces, and architecting Node.js API endpoints that handled enterprise-scale transaction volumes.",
-      impact:
-        "Measurable improvement in platform reliability and feature velocity for the entire team.",
-      tech_stack: [
-        "Node.js",
-        "Angular",
-        "PostgreSQL",
-        "Sequelize",
-        "DB2",
-        "IBM Cloudant",
-      ],
-    },
-    "exhibit-homesalesone"
-  );
-
-  const exhibitDLG = await createSection(
-    "exhibit",
-    {
-      title: "Digital Learning Guide",
-      client: "IBM",
-      role: "Principal Developer",
-      lede: "A multi-year evolution of a global learning ecosystem, built to scale with an enterprise workforce.",
-      challenge:
-        "IBM's global learning platform needed continuous evolution to serve its worldwide workforce with scalable, reliable content delivery. The platform required automated data synchronization between multiple backend systems and a robust editorial workflow for content reviewers.",
-      approach:
-        "Over a multi-year engagement, I led the platform's technical evolution — designing a Worker Queue system for reliable automated data sync, building a comprehensive reviewer dashboard, and progressively modernizing the stack from legacy patterns to a modern Node.js, Express, and Angular architecture.",
-      impact:
-        "The system served as a critical piece of IBM's global learning infrastructure, demonstrating the value of sustained, thoughtful architectural investment.",
-      tech_stack: [
-        "Node.js",
-        "Express",
-        "IBM Cloudant",
-        "IBM Cloud",
-        "Angular",
-        "TypeScript",
-      ],
-    },
-    "exhibit-dlg"
-  );
-
-  const exhibitResumeAssistant = await createSection(
-    "exhibit",
-    {
-      title: "Resume Assistant",
-      client: "Fast Dog Coding (Internal)",
-      role: "AI Architect / Sole Proprietor",
-      lede: "An AI-powered chatbot that provides real-time, context-aware answers about professional capabilities using Retrieval-Augmented Generation.",
-      challenge:
-        "Traditional resumes and portfolios are static documents that can't answer follow-up questions or provide context-specific details. I wanted to build something that could represent my professional experience dynamically — answering questions in real time with accurate, sourced information.",
-      approach:
-        "I designed and deployed a Retrieval-Augmented Generation (RAG) chatbot hosted on AWS App Runner. The system ingests professional documentation into OpenAI Vector Stores, enabling the AI to ground its responses in factual, retrievable content rather than hallucinating.",
-      impact:
-        "An always-available AI concierge that can discuss experience, technical capabilities, and project history with the nuance and accuracy of a personal conversation.",
-      tech_stack: [
-        "AWS App Runner",
-        "Node.js",
-        "OpenAI API",
-        "Vector Stores",
-        "RAG",
-      ],
-    },
-    "exhibit-resume-assistant"
   );
 
   // ── Legal & Privacy Prose ──
@@ -472,7 +340,7 @@ async function main() {
         "Any conversations with the AI Concierge may be logged for quality and performance improvements. Please do not share sensitive or proprietary information in the chat.",
         "",
         "## Contacting Us",
-        "If you have any questions about this Privacy Policy, you may contact us using the information on the Contact page.",
+        "If you have any questions about this Privacy Policy, you may contact us using the information on <a href='/contact'>the Contact page</a>.",
       ].join("\n"),
     },
     "prose-privacy"
@@ -525,7 +393,7 @@ async function main() {
       slug: "about",
       title: "About",
       metaDesc:
-        "Meet the architect behind Fast Dog Coding. Learn about the philosophy, the process, and the greyhound that inspired it all.",
+        "Meet the architect behind Fast Dog Coding. Learn about the philosophy, the process, and the greyhounds that inspired it all.",
       isPublished: true,
       isNav: true,
       navLabel: "About",
@@ -538,7 +406,7 @@ async function main() {
       slug: "contact",
       title: "Start a Conversation",
       metaDesc:
-        "Start a conversation with Fast Dog Coding. Connect via LinkedIn, email, book a call, or chat with the AI concierge to discuss your next technical challenge.",
+        "Start a conversation with Fast Dog Coding. Connect via LinkedIn, email, book a call, or chat with our AI concierge to discuss your next technical challenge.",
       isPublished: true,
       isNav: true,
       navLabel: "Contact",
@@ -580,47 +448,6 @@ async function main() {
     },
   });
 
-  // ── Gallery Projects (child pages) ──
-
-  const homeSalesOnePage = await prisma.page.create({
-    data: {
-      slug: "homesalesone",
-      parentSlug: "gallery",
-      title: "HomeSalesOne — Enterprise Home Sales Automation",
-      metaDesc:
-        "Full-stack enterprise automation platform for home sales offices, augmenting in-house teams with high-value features.",
-      isPublished: true,
-      isNav: false,
-      sortOrder: 1,
-    },
-  });
-
-  const dlgPage = await prisma.page.create({
-    data: {
-      slug: "digital-learning-guide",
-      parentSlug: "gallery",
-      title: "Digital Learning Guide — Global Learning Ecosystem",
-      metaDesc:
-        "Multi-year evolution of a global learning ecosystem serving IBM's worldwide workforce.",
-      isPublished: true,
-      isNav: false,
-      sortOrder: 2,
-    },
-  });
-
-  const resumeAssistantPage = await prisma.page.create({
-    data: {
-      slug: "resume-assistant",
-      parentSlug: "gallery",
-      title: "Resume Assistant — AI-Powered RAG Chatbot",
-      metaDesc:
-        "AWS-hosted chatbot utilizing RAG for real-time, context-aware professional capability responses.",
-      isPublished: true,
-      isNav: false,
-      sortOrder: 3,
-    },
-  });
-
   // ════════════════════════════════════════════════════════════════
   // 4. WIRE SECTIONS → PAGES (via page_sections join table)
   // ════════════════════════════════════════════════════════════════
@@ -632,7 +459,7 @@ async function main() {
   await placeSection(home.id, ctaDefault.id, 3);
 
   // ── Gallery ──
-  await placeSection(gallery.id, galleryProse.id, 0);
+  await placeSection(gallery.id, galleryHero.id, 0);
   await placeSection(gallery.id, galleryGrid.id, 1);
 
   // ── Services ──
@@ -651,11 +478,10 @@ async function main() {
 
   // ── Testimonials ──
   await placeSection(testimonials.id, testimonialsHero.id, 0);
-  await placeSection(testimonials.id, testimonialJason.id, 1);
-  await placeSection(testimonials.id, testimonialLuis.id, 2);
-  await placeSection(testimonials.id, testimonialAndrew.id, 3);
-  await placeSection(testimonials.id, testimonialCaro.id, 4);
-  await placeSection(testimonials.id, testimonialJenn.id, 5);
+  for (let i = 0; i < TESTIMONIALS.length; i++) {
+    const section = testimonialBySlug.get(TESTIMONIALS[i].slug)!;
+    await placeSection(testimonials.id, section.id, i + 1);
+  }
 
   // ── Legal ──
   await placeSection(legal.id, legalProse.id, 0);
@@ -663,19 +489,34 @@ async function main() {
   // ── Privacy ──
   await placeSection(privacy.id, privacyProse.id, 0);
 
-  // ── Exhibit: HomeSalesOne ──
-  await placeSection(homeSalesOnePage.id, exhibitHomeSalesOne.id, 0);
-  await placeSection(homeSalesOnePage.id, testimonialJason.id, 1);
-  await placeSection(homeSalesOnePage.id, ctaDefault.id, 2);
-
-  // ── Exhibit: Digital Learning Guide ──
-  await placeSection(dlgPage.id, exhibitDLG.id, 0);
-  await placeSection(dlgPage.id, testimonialAndrew.id, 1);
-  await placeSection(dlgPage.id, ctaDefault.id, 2);
-
-  // ── Exhibit: Resume Assistant ──
-  await placeSection(resumeAssistantPage.id, exhibitResumeAssistant.id, 0);
-  await placeSection(resumeAssistantPage.id, ctaDefault.id, 1);
+  // ── Gallery exhibit pages ──
+  for (const exhibit of EXHIBITS) {
+    const exhibitSection = await createSection(
+      "exhibit",
+      exhibit.data,
+      exhibit.exhibitSlug
+    );
+    const galleryPage = await prisma.page.create({
+      data: {
+        slug: exhibit.pageSlug,
+        parentSlug: "gallery",
+        title: exhibit.pageTitle,
+        metaDesc: exhibit.metaDesc,
+        isPublished: true,
+        isNav: false,
+        sortOrder: exhibit.sortOrder,
+      },
+    });
+    let placementOrder = 0;
+    await placeSection(galleryPage.id, exhibitSection.id, placementOrder++);
+    if (exhibit.testimonialSlug) {
+      const testimonial = testimonialBySlug.get(exhibit.testimonialSlug);
+      if (testimonial) {
+        await placeSection(galleryPage.id, testimonial.id, placementOrder++, "compact");
+      }
+    }
+    await placeSection(galleryPage.id, ctaDefault.id, placementOrder);
+  }
 
   // ── Summary ──
 

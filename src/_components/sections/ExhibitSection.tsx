@@ -35,62 +35,65 @@ export function ExhibitSection({
         </div>
       </section>
 
-      {/* Executive plaque */}
+      {/* Content Grid: Plaque + Narrative */}
       <section className="w-full py-12 md:py-16">
-        <div className="container mx-auto max-w-5xl px-4">
-          <div className="border-y border-border py-12">
-            <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
-              {/* Column 1: Client */}
-              <div className="flex flex-col gap-2">
-                <h3 className="font-mono text-sm uppercase tracking-widest text-secondary">
-                  Client
-                </h3>
-                <p className="text-xl font-medium text-primary">{client}</p>
-              </div>
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-12">
+            
+            {/* Left Column: Sticky Executive Plaque */}
+            <aside className="md:col-span-4 lg:col-span-3 md:sticky md:top-32">
+              <div className="flex flex-col gap-8 rounded-2xl border border-border bg-surface p-6 md:p-8">
+                {/* 1: Role */}
+                <div className="flex flex-col gap-2">
+                  <h3 className="font-mono text-xs uppercase tracking-widest text-secondary">
+                    My Role
+                  </h3>
+                  <p className="text-lg font-medium text-primary">{role}</p>
+                </div>
 
-              {/* Column 2: Tech Stack */}
-              <div className="flex flex-col gap-3">
-                <h3 className="font-mono text-sm uppercase tracking-widest text-secondary">
-                  Tech Stack
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {(tech_stack || []).map((tech) => (
-                    <Tag key={tech}>{tech}</Tag>
-                  ))}
+                {/* 2: Client */}
+                <div className="flex flex-col gap-2">
+                  <h3 className="font-mono text-xs uppercase tracking-widest text-secondary">
+                    Client
+                  </h3>
+                  <p className="text-lg font-medium text-primary">{client}</p>
+                </div>
+
+                {/* 3: Tech Stack */}
+                <div className="flex flex-col gap-3">
+                  <h3 className="font-mono text-xs uppercase tracking-widest text-secondary">
+                    Tech Stack
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {(tech_stack || []).map((tech) => (
+                      <Tag key={tech}>{tech}</Tag>
+                    ))}
+                  </div>
                 </div>
               </div>
+            </aside>
 
-              {/* Column 3: Role */}
-              <div className="flex flex-col gap-2">
-                <h3 className="font-mono text-sm uppercase tracking-widest text-secondary">
-                  My Role
-                </h3>
-                <p className="text-xl font-medium text-primary">{role}</p>
+            {/* Right Column: Narrative Sections */}
+            <div className="md:col-span-8 lg:col-span-9">
+              <div className="prose-fdc space-y-12">
+                {challenge && (
+                  <div>
+                    <ReactMarkdown>{`## The Challenge\n\n${challenge}`}</ReactMarkdown>
+                  </div>
+                )}
+                {approach && (
+                  <div>
+                    <ReactMarkdown>{`## The Approach\n\n${approach}`}</ReactMarkdown>
+                  </div>
+                )}
+                {impact && (
+                  <div>
+                    <ReactMarkdown>{`## The Impact\n\n${impact}`}</ReactMarkdown>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Narrative sections */}
-      <section className="w-full py-12 md:py-16">
-        <div className="container mx-auto max-w-3xl px-4">
-          <div className="prose-fdc space-y-12">
-            {challenge && (
-              <div>
-                <ReactMarkdown>{`## The Challenge\n\n${challenge}`}</ReactMarkdown>
-              </div>
-            )}
-            {approach && (
-              <div>
-                <ReactMarkdown>{`## The Approach\n\n${approach}`}</ReactMarkdown>
-              </div>
-            )}
-            {impact && (
-              <div>
-                <ReactMarkdown>{`## The Impact\n\n${impact}`}</ReactMarkdown>
-              </div>
-            )}
           </div>
         </div>
       </section>

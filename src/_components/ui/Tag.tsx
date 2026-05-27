@@ -13,7 +13,7 @@ interface TagProps {
 export function Tag({ children, className = "" }: TagProps) {
   return (
     <span
-      className={`rounded-md bg-surface px-3 py-1 text-sm font-medium text-secondary ${className}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary/10 text-secondary ${className}`}
     >
       {children}
     </span>
