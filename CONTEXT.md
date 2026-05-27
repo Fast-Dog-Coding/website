@@ -123,8 +123,15 @@ components define local interfaces inline.
 | `legal` | `/legal` | — | Footer link only |
 | `privacy` | `/privacy` | — | Footer link only |
 | `homesalesone` | `/gallery/homesalesone` | — | Gallery child |
+| `candidate-vantage` | `/gallery/candidate-vantage` | — | Gallery child |
+| `candidate-concierge` | `/gallery/candidate-concierge` | — | Gallery child |
+| `edvisor` | `/gallery/edvisor` | — | Gallery child |
+| `lita` | `/gallery/lita` | — | Gallery child |
 | `digital-learning-guide` | `/gallery/digital-learning-guide` | — | Gallery child |
-| `resume-assistant` | `/gallery/resume-assistant` | — | Gallery child |
+| `compliance-attender` | `/gallery/compliance-attender` | — | Gallery child |
+| `phoenix` | `/gallery/phoenix` | — | Gallery child |
+| `exposure-monitoring` | `/gallery/exposure-monitoring` | — | Gallery child |
+| `buzzzone` | `/gallery/buzzzone` | — | Gallery child |
 
 Run seed: `npx prisma db seed` (configured in `prisma.config.ts`).
 
@@ -174,10 +181,14 @@ createdb fdc_website          # if needed
 # .env with DATABASE_URL=postgresql://...
 npx prisma db push
 npx prisma db seed
-npm run dev
+npm run launch                # or: ./scripts/dev.sh
 ```
 
-Optional: `postgres-fdc-website` MCP for DB inspection in Cursor.
+`npm run launch` loads `.env`, installs deps if needed, runs `prisma generate`, checks the DB, then starts `next dev`.
+
+**MCP (Cursor):** `.cursor/mcp.json` defines `postgres-fdc-website` — read-only SQL and schema
+via `@modelcontextprotocol/server-postgres`, using `DATABASE_URL` from `.env` (see `.env.example`).
+Reload Cursor after changing MCP config. Check **Settings → MCP** for connection status.
 
 ---
 
