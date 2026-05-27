@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "launch": "zsh scripts/dev.sh",
-    "build": "prisma generate && next build",
+    "build": "sh scripts/vercel-build.sh",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed",
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint"
