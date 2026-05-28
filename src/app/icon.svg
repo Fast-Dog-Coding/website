@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Fast Dog Coding">
+  <!-- fs=14, bar under D: x=cx-0.3*fs, w=0.6*fs (matches BrandLogo FdcMark accent width) -->
+  <rect width="32" height="32" fill="#111111"/>
+  <text
+    x="16"
+    y="18"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+    font-size="14"
+    font-weight="700"
+    fill="#F5F5F5"
+  >FDC</text>
+  <rect x="11.8" y="24.3" width="8.4" height="2.5" fill="#BE9541" rx="0.5"/>
+</svg>
