@@ -50,6 +50,13 @@ export async function SiteFooter() {
           >
             Privacy
           </a>
+          <a
+            href="https://candidate-concierge.fastdogcoding.com/privacy"
+            className="transition-colors duration-150 hover:text-primary"
+            rel="noopener noreferrer"
+          >
+            Concierge Privacy
+          </a>
         </div>
       </div>
     </footer>

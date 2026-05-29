@@ -162,7 +162,7 @@ export const EXHIBITS: ExhibitSeed[] = [
       approach:
         "I designed and deployed a Retrieval-Augmented Generation chatbot on AWS App Runner, ingesting professional documentation into OpenAI Vector Stores so responses stay grounded in retrievable facts rather than speculation.",
       impact:
-        "An always-available AI concierge that discusses experience, technical capabilities, and project history with sourced accuracy.",
+        "An always-available AI concierge that discusses experience, technical capabilities, and project history with sourced accuracy. Privacy for the live chat is described in the Concierge Privacy & Terms (https://candidate-concierge.fastdogcoding.com/privacy).",
       tech_stack: [
         "AWS App Runner",
         "Node.js",

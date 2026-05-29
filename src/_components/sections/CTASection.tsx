@@ -1,7 +1,7 @@
 /**
  * CTASection
  *
- * Multi-channel CTA block (LinkedIn, Email, Calendar, AI Concierge).
+ * Multi-channel CTA block (LinkedIn, Email, Calendar, Candidate Concierge).
  * Source: TDS § 3 wireframe (lines 499–537)
  */
 
