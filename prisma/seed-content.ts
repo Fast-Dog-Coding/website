@@ -96,9 +96,39 @@ export const TESTIMONIALS: TestimonialSeed[] = [
 
 export const EXHIBITS: ExhibitSeed[] = [
   {
+    exhibitSlug: "exhibit-portfolio-website",
+    pageSlug: "portfolio-website",
+    sortOrder: 1,
+    pageTitle: "Fast Dog Coding Portfolio Website — Server-Driven UI Showcase",
+    metaDesc:
+      "Server-driven portfolio site demonstrating architectural capability as an interactive proof of the exact stack prospects would hire for.",
+    data: {
+      title: "Fast Dog Coding Portfolio Website",
+      client: "Fast Dog Coding, LLC (Internal)",
+      role: "AI Architect / Sole Proprietor",
+      lede: "Server-driven portfolio site that demonstrates architectural capability while serving as the primary showcase for contract consulting prospects.",
+      challenge:
+        "Must convince enterprise evaluators of architectural depth—not read like a static brochure—while staying extensible without code changes for every new page or section.",
+      approach:
+        "Built on Server-Driven UI: PostgreSQL stores pages, reusable sections, and join rows; a GraphQL read API feeds a fixed vocabulary of React section renderers. Next.js 16 App Router, Apollo Server 5, Prisma 7, Tailwind CSS v4.",
+      impact:
+        "The site is itself proof of the stack—an interactive demonstration of the exact technologies prospects would hire for, with the recursive twist that the site appears in its own project gallery.",
+      tech_stack: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "GraphQL",
+        "Apollo Server",
+        "PostgreSQL",
+        "Prisma",
+        "Tailwind CSS",
+      ],
+    },
+  },
+  {
     exhibitSlug: "exhibit-homesalesone",
     pageSlug: "homesalesone",
-    sortOrder: 1,
+    sortOrder: 4,
     pageTitle: "HomeSalesOne — Enterprise Home Sales Automation",
     metaDesc:
       "Full-stack enterprise automation platform for home sales offices, augmenting in-house teams with high-value features.",
@@ -133,16 +163,31 @@ export const EXHIBITS: ExhibitSeed[] = [
       "AI-driven lead scoring that evaluates job descriptions against historical suitability and behavioral data.",
     data: {
       title: "Candidate Vantage",
-      client: "Fast Dog Coding, LLC (Internal R&D)",
+      client: "Fast Dog Coding, LLC (Internal)",
       role: "AI Architect / Sole Proprietor",
       lede: "An AI-driven lead scoring tool that evaluates job descriptions on a 1–5 scale based on historical suitability and behavioral data.",
       challenge:
         "Evaluating whether a job posting is worth pursuing means weighing fit, risk, and opportunity cost—often with incomplete information and no structured way to learn from past decisions.",
       approach:
-        "I built an internal tool using OpenAI Assistants and Vector Stores to score job descriptions against patterns from prior engagements, turning subjective gut checks into a repeatable, data-informed workflow.",
+        "I built an Nx monorepo with a NestJS backend and Angular frontend: a Chrome extension scrapes job postings, Google Gemini AI scores them against a personal profile stored in MongoDB, auto-archives low fits, generates tailored resumes and cover letters, sends Slack alerts for high-value matches, and provides a Kanban dashboard with real-time updates via Socket.io.",
       impact:
         "Faster, more consistent prioritization of opportunities aligned with real track record—not just headline requirements.",
-      tech_stack: ["Node.js", "OpenAI API (Assistants)", "Vector Stores"],
+      tech_stack: [
+        "Node.js",
+        "OpenAI API (Assistants)",
+        "Vector Stores",
+        "TypeScript",
+        "NestJS",
+        "Angular",
+        "Nx",
+        "Prisma",
+        "PostgreSQL",
+        "MongoDB",
+        "Google Gemini",
+        "Socket.io",
+        "Chrome Extension",
+        "Slack",
+      ],
     },
   },
   {
@@ -151,16 +196,16 @@ export const EXHIBITS: ExhibitSeed[] = [
     sortOrder: 3,
     pageTitle: "Candidate Concierge — AI-Powered RAG Chatbot",
     metaDesc:
-      "AWS-hosted chatbot utilizing RAG for real-time, context-aware professional capability responses.",
+      "Vercel-hosted chatbot utilizing RAG for real-time, context-aware professional capability responses.",
     data: {
       title: "Candidate Concierge",
-      client: "Fast Dog Coding, LLC (Internal R&D)",
+      client: "Fast Dog Coding, LLC (Internal)",
       role: "AI Architect / Sole Proprietor",
-      lede: "An AWS-hosted chatbot utilizing RAG to provide real-time, context-aware responses regarding professional capabilities.",
+      lede: "A Vercel-hosted chatbot utilizing RAG to provide real-time, context-aware responses regarding professional capabilities.",
       challenge:
         "Traditional resumes and portfolios are static—they cannot answer follow-up questions or adapt to context-specific inquiries about experience and fit.",
       approach:
-        "I designed and deployed a Retrieval-Augmented Generation chatbot on AWS App Runner, ingesting professional documentation into OpenAI Vector Stores so responses stay grounded in retrievable facts rather than speculation.",
+        "I designed and deployed a Retrieval-Augmented Generation chatbot on Vercel, loading professional documentation from a MongoDB knowledge base into the system prompt and routing LLM requests through OpenRouter so responses stay grounded in retrievable facts rather than speculation.",
       impact:
         "An always-available AI concierge that discusses experience, technical capabilities, and project history with sourced accuracy. Privacy for the live chat is described in the Concierge Privacy & Terms (https://candidate-concierge.fastdogcoding.com/privacy).",
       tech_stack: [
@@ -169,13 +214,21 @@ export const EXHIBITS: ExhibitSeed[] = [
         "OpenAI API",
         "Vector Stores",
         "RAG",
+        "Express",
+        "EJS",
+        "MongoDB",
+        "Mongoose",
+        "OpenRouter",
+        "LLM",
+        "Vercel",
+        "Winston",
       ],
     },
   },
   {
     exhibitSlug: "exhibit-edvisor",
     pageSlug: "edvisor",
-    sortOrder: 4,
+    sortOrder: 5,
     pageTitle: "Edvisor — LMS Modernization",
     metaDesc:
       "High-stakes migration of a global LMS serving 80,000 employees from legacy IBM Domino to a modern stack.",
@@ -202,13 +255,13 @@ export const EXHIBITS: ExhibitSeed[] = [
   {
     exhibitSlug: "exhibit-lita",
     pageSlug: "lita",
-    sortOrder: 5,
-    pageTitle: "Lydz in the Attic — Custom Storefront & CMS",
+    sortOrder: 6,
+    pageTitle: "CMS and Storefront — Lydz in the Attic",
     metaDesc:
       "Custom CMS and storefront for a textile creator with advanced filtering, authentication, and image carousel.",
     data: {
-      title: "Lydz in the Attic (LITA)",
-      client: "LITA",
+      title: "CMS and Storefront",
+      client: "Lydz in the Attic (LITA)",
       role: "Full-Stack Developer / Architect",
       lede: "Engineered a custom CMS and storefront for a textile creator, featuring advanced filtering, secure authentication, and a high-performance image carousel.",
       challenge:
@@ -227,9 +280,37 @@ export const EXHIBITS: ExhibitSeed[] = [
     },
   },
   {
+    exhibitSlug: "exhibit-resume-app",
+    pageSlug: "resume-app",
+    sortOrder: 7,
+    pageTitle: "Resume App — Interactive Data-Driven Resume",
+    metaDesc:
+      "An interactive resume that both tells and shows career history—always current at a single URL and serving as a live skills demonstration.",
+    data: {
+      title: "Resume App",
+      client: "Fast Dog Coding, LLC (Internal)",
+      role: "Principal Architect / Sole Proprietor",
+      lede: "An interactive, data-driven resume that both tells and shows career history—always current at a single URL and serving as a live skills demonstration.",
+      challenge:
+        "Proprietary client work cannot be shown publicly; needed a demonstration application that proves skills while delivering a resume above the ordinary printed variety.",
+      approach:
+        "Merged resume and demo app into one Express application with Handlebars views, IBM Cloudant for structured career data, and D3.js visualizations—deployed on IBM Cloud Foundry. Open-sourced on GitHub for pre-interview technical review.",
+      impact:
+        "Always-up-to-date resume link that never goes stale; saves interviewers time with inspectable source code; foundation for future dynamic Word export from the same data source.",
+      tech_stack: [
+        "Node.js",
+        "Express",
+        "Handlebars",
+        "IBM Cloudant",
+        "D3.js",
+        "IBM Cloud Foundry",
+      ],
+    },
+  },
+  {
     exhibitSlug: "exhibit-dlg",
     pageSlug: "digital-learning-guide",
-    sortOrder: 6,
+    sortOrder: 8,
     pageTitle: "Digital Learning Guide — Global Learning Ecosystem",
     metaDesc:
       "Multi-year evolution of a global learning ecosystem serving IBM's worldwide workforce.",
@@ -258,7 +339,7 @@ export const EXHIBITS: ExhibitSeed[] = [
   {
     exhibitSlug: "exhibit-compliance-attender",
     pageSlug: "compliance-attender",
-    sortOrder: 7,
+    sortOrder: 9,
     pageTitle: "Compliance Attender — Real-Time DLP on Domino",
     metaDesc:
       "C++ server add-in for real-time email interception and data-leakage prevention on IBM Domino.",
@@ -279,7 +360,7 @@ export const EXHIBITS: ExhibitSeed[] = [
   {
     exhibitSlug: "exhibit-phoenix",
     pageSlug: "phoenix",
-    sortOrder: 8,
+    sortOrder: 10,
     pageTitle: "Phoenix — Investment Lifecycle Management",
     metaDesc:
       "Venture capital intake and tracking from initial solicitation through follow-on funding with compliance reporting.",
@@ -300,7 +381,7 @@ export const EXHIBITS: ExhibitSeed[] = [
   {
     exhibitSlug: "exhibit-exposure-monitoring",
     pageSlug: "exposure-monitoring",
-    sortOrder: 9,
+    sortOrder: 11,
     pageTitle: "Exposure Monitoring System — Industrial Hygiene",
     metaDesc:
       "Data management for industrial hygienists tracking workforce exposure and OSHA compliance.",
@@ -321,7 +402,7 @@ export const EXHIBITS: ExhibitSeed[] = [
   {
     exhibitSlug: "exhibit-buzzzone",
     pageSlug: "buzzzone",
-    sortOrder: 10,
+    sortOrder: 12,
     pageTitle: "BuzzZone — Bilingual Enterprise Intranet",
     metaDesc:
       "Company-wide bilingual intranet launched in ten weeks for branch employees moving off green-screen terminals.",
