@@ -71,7 +71,7 @@ export const TESTIMONIALS: TestimonialSeed[] = [
       role: "Senior Full Stack Software Developer",
       company: "REDspace, Inc.",
       content:
-        "Grant is one of the most talented software engineers I have worked with. We have been working together for around 7 years building apps for the IBM DLG ecosystem. Excellent hard skills from database to the frontend. Highly skilled architecturing features, products, and proposing solutions to complex problems. He is also an excellent team player, who is really nice at mentoring co-workers in the new tools or frameworks when changes are needed. A very reliable, rock solid professional, taking ownership of features and organizing tasks for the team. Grant also has a gentle, friendly and considerate personality that contributes positively in the work environment.",
+        "Grant is one of the most talented software engineers I have worked with. We have been working together for around 7 years building apps for the IBM DLG ecosystem. Excellent hard skills from database to the frontend. Highly skilled architecturing features, products, and proposing solutions to complex problems.\n\nHe is also an excellent team player, who is really nice at mentoring co-workers in the new tools or frameworks when changes are needed. A very reliable, rock solid professional, taking ownership of features and organizing tasks for the team. Grant also has a gentle, friendly and considerate personality that contributes positively in the work environment.",
       snippets: [
         "One of the most talented software engineers I have worked with.",
         "A very reliable, rock solid professional, taking ownership of features and organizing tasks for the team.",
