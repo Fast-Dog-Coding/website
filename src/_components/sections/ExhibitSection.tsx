@@ -46,7 +46,7 @@ export function ExhibitSection({
                 {/* 1: Role */}
                 <div className="flex flex-col gap-2">
                   <h3 className="font-mono text-xs uppercase tracking-widest text-secondary">
-                    My Role
+                    Role
                   </h3>
                   <p className="text-lg font-medium text-primary">{role}</p>
                 </div>

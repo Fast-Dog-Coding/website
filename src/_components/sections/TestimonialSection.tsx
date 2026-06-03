@@ -9,6 +9,7 @@
  * with a single reusable component.
  */
 
+import Link from "next/link";
 import { Card } from "@/_components/ui/Card";
 import type { TestimonialData } from "@/types";
 
@@ -40,6 +41,14 @@ export function TestimonialSection({
           <p className="mt-6 text-base text-secondary">
             — {name}, {role}
             {company && ` @ ${company}`}
+          </p>
+          <p className="mt-8">
+            <Link
+              href="/testimonials"
+              className="text-sm font-medium text-accent underline-offset-4 transition-colors duration-150 hover:text-accent-hover hover:underline"
+            >
+              View all testimonials
+            </Link>
           </p>
         </div>
       </section>

@@ -163,7 +163,7 @@ async function main() {
     {
       heading: "Exhibit Gallery",
       subheading:
-        "Each project represents a distinct challenge and a tailored architectural solution. The common thread is a relentless focus on performance, scalability, and measurable business impact. This is a curated selection of work that demonstrates a commitment to technical excellence under real-world constraints.",
+        "Each showcase represents a distinct challenge and a tailored architectural solution. The common thread is our focus on performance, scalability, and measurable business impact—a curated selection of work that demonstrates technical excellence under real-world constraints.",
     },
     "hero-gallery"
   );
@@ -250,6 +250,8 @@ async function main() {
         "",
         "I take my work seriously. I don't take myself seriously.",
         "",
+        "For credentials at a glance, [download my résumé (PDF)](/files/resume.pdf). For perspective from people I've worked with, see [testimonials](/testimonials).",
+        "",
         "## The Origin Story",
         "",
         "People often ask about the name. It wasn't born in a marketing brainstorm; it was born out of international legal compliance.",
@@ -270,7 +272,9 @@ async function main() {
         "",
         "When I'm not 'swapping engines mid-flight' on legacy servers, you can usually find me walking to clear my mind, playing low-stress video games, or traveling to discover local foods and meet new people. ",
         "",
-        "I also have a deep fascination with languages. I can understand French (si vous parlez plus lentement) and am currently tackling the structural challenge of learning Japanese.",
+        "I also have a deep fascination with languages. I can understand French (si vous parlez plus lentement) and am currently tackling the challenge of learning Japanese.",
+        "",
+        "---",
         "",
         "Speaking of which, why do programmers prefer dark mode?",
         "",

@@ -103,14 +103,14 @@ export const EXHIBITS: ExhibitSeed[] = [
     metaDesc:
       "Server-driven portfolio site demonstrating architectural capability as an interactive proof of the exact stack prospects would hire for.",
     data: {
-      title: "Fast Dog Coding Portfolio Website",
+      title: "Portfolio Website",
       client: "Fast Dog Coding, LLC (Internal)",
       role: "AI Architect / Sole Proprietor",
-      lede: "Server-driven portfolio site that demonstrates architectural capability while serving as the primary showcase for contract consulting prospects.",
+      lede: "We built this server-driven portfolio site to demonstrate architectural capability while serving as the primary showcase for contract consulting prospects.",
       challenge:
         "Must convince enterprise evaluators of architectural depth—not read like a static brochure—while staying extensible without code changes for every new page or section.",
       approach:
-        "Built on Server-Driven UI: PostgreSQL stores pages, reusable sections, and join rows; a GraphQL read API feeds a fixed vocabulary of React section renderers. Next.js 16 App Router, Apollo Server 5, Prisma 7, Tailwind CSS v4.",
+        "We built on Server-Driven UI: PostgreSQL stores pages, reusable sections, and join rows; a GraphQL read API feeds a fixed vocabulary of React section renderers. Next.js 16 App Router, Apollo Server 5, Prisma 7, Tailwind CSS v4.",
       impact:
         "The site is itself proof of the stack—an interactive demonstration of the exact technologies prospects would hire for, with the recursive twist that the site appears in its own project gallery.",
       tech_stack: [
@@ -137,13 +137,13 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "HomeSalesOne",
       client: "KS2 Technologies, Inc.",
       role: "Principal Full-Stack Developer (Contractor)",
-      lede: "Enhanced a comprehensive home sales office automation solution, augmenting in-house teams to deliver high-value features for enterprise customers.",
+      lede: "We helped KS2 revitalize HomeSalesOne—an enterprise sales-office platform already in production—by delivering retention-critical work on the current release while co-building its next generation on a new stack and hosting platform.",
       challenge:
-        "KS2 Technologies needed principal-level capacity on a complex, multi-tenant enterprise platform serving home sales offices nationwide—from lead tracking through closing documentation—without slowing the in-house team's momentum.",
+        "When Fast Dog Coding joined KS2, HomeSalesOne was a mature production platform regional homebuilders relied on every day—with executive sponsorship to evolve it, not just maintain it.",
       approach:
-        "As an embedded contractor, I delivered high-impact features across the full stack: optimizing queries across PostgreSQL, DB2, and IBM Cloudant; building responsive Angular interfaces; and architecting Node.js APIs sized for enterprise transaction volumes.",
+        "We worked on two parallel tracks: shipping selective, high-value features on the production stack—Angular, Node.js, DB2, and IBM Cloudant—to keep current clients engaged, while designing and building the next version on a new stack and hosting platform.",
       impact:
-        "Measurable improvement in platform reliability and feature velocity for the entire product team.",
+        "Accelerated KS2's product roadmap: steadier reliability and feature delivery on the live platform, plus meaningful progress on the greenfield rewrite ready for market.",
       tech_stack: [
         "Node.js",
         "Angular",
@@ -165,11 +165,11 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "Candidate Vantage",
       client: "Fast Dog Coding, LLC (Internal)",
       role: "AI Architect / Sole Proprietor",
-      lede: "An AI-driven lead scoring tool that evaluates job descriptions on a 1–5 scale based on historical suitability and behavioral data.",
+      lede: "We built an AI-driven lead scoring tool that evaluates job descriptions on a 1–5 scale based on historical suitability and behavioral data.",
       challenge:
         "Evaluating whether a job posting is worth pursuing means weighing fit, risk, and opportunity cost—often with incomplete information and no structured way to learn from past decisions.",
       approach:
-        "I built an Nx monorepo with a NestJS backend and Angular frontend: a Chrome extension scrapes job postings, Google Gemini AI scores them against a personal profile stored in MongoDB, auto-archives low fits, generates tailored resumes and cover letters, sends Slack alerts for high-value matches, and provides a Kanban dashboard with real-time updates via Socket.io.",
+        "We built an Nx monorepo with a NestJS backend and Angular frontend: a Chrome extension scrapes job postings, Google Gemini AI scores them against a personal profile stored in MongoDB, auto-archives low fits, generates tailored resumes and cover letters, sends Slack alerts for high-value matches, and provides a Kanban dashboard with real-time updates via Socket.io.",
       impact:
         "Faster, more consistent prioritization of opportunities aligned with real track record—not just headline requirements.",
       tech_stack: [
@@ -201,13 +201,13 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "Candidate Concierge",
       client: "Fast Dog Coding, LLC (Internal)",
       role: "AI Architect / Sole Proprietor",
-      lede: "A Vercel-hosted chatbot utilizing RAG to provide real-time, context-aware responses regarding professional capabilities.",
+      lede: "We built a Vercel-hosted chatbot utilizing RAG to provide real-time, context-aware responses regarding professional capabilities.",
       challenge:
         "Traditional resumes and portfolios are static—they cannot answer follow-up questions or adapt to context-specific inquiries about experience and fit.",
       approach:
-        "I designed and deployed a Retrieval-Augmented Generation chatbot on Vercel, loading professional documentation from a MongoDB knowledge base into the system prompt and routing LLM requests through OpenRouter so responses stay grounded in retrievable facts rather than speculation.",
+        "We designed and deployed a Retrieval-Augmented Generation chatbot on Vercel, loading professional documentation from a MongoDB knowledge base into the system prompt and routing LLM requests through OpenRouter so responses stay grounded in retrievable facts rather than speculation.",
       impact:
-        "An always-available AI concierge that discusses experience, technical capabilities, and project history with sourced accuracy. Privacy for the live chat is described in the Concierge Privacy & Terms (https://candidate-concierge.fastdogcoding.com/privacy).",
+        "An always-available AI concierge that discusses experience, technical capabilities, and project history with sourced accuracy. The app is available to try at https://candidate-concierge.fastdogcoding.com/.",
       tech_stack: [
         "AWS App Runner",
         "Node.js",
@@ -236,11 +236,11 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "Edvisor",
       client: "REDspace, Inc. (for Kyndryl)",
       role: "Modernization Lead",
-      lede: "Executed a high-stakes migration of a global LMS serving 80,000 employees from legacy IBM Domino to a modern stack under aggressive sunset deadlines.",
+      lede: "We executed a high-stakes migration of a global LMS serving 80,000 employees from legacy IBM Domino to a modern stack under aggressive sunset deadlines.",
       challenge:
         "A global learning management system serving tens of thousands of employees faced a hard platform sunset—requiring a complete migration off IBM Domino without disrupting learners or administrators.",
       approach:
-        "I led the modernization effort on an accelerated timeline, delivering Node.js and Express services backed by MongoDB and RESTful APIs while bridging coexistence with the legacy Domino environment.",
+        "We led the modernization effort on an accelerated timeline, delivering Node.js and Express services backed by MongoDB and RESTful APIs while bridging coexistence with the legacy Domino environment.",
       impact:
         "Successful cutover to a modern stack before the sunset window closed, preserving continuity for a workforce-scale LMS.",
       tech_stack: [
@@ -263,11 +263,11 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "CMS and Storefront",
       client: "Lydz in the Attic (LITA)",
       role: "Full-Stack Developer / Architect",
-      lede: "Engineered a custom CMS and storefront for a textile creator, featuring advanced filtering, secure authentication, and a high-performance image carousel.",
+      lede: "We engineered a custom CMS and storefront for a textile creator, featuring advanced filtering, secure authentication, and a high-performance image carousel.",
       challenge:
         "A small creative business needed a storefront that could showcase visual inventory richly while remaining easy for a non-technical owner to manage day to day.",
       approach:
-        "I architected and built a full-stack solution with Node.js and Express, IBM Cloudant for flexible content storage, and an Angular TypeScript front end tuned for catalog browsing and merchandising workflows.",
+        "We architected and built a full-stack solution with Node.js and Express, IBM Cloudant for flexible content storage, and an Angular TypeScript front end tuned for catalog browsing and merchandising workflows.",
       impact:
         "A tailored commerce experience that matched the brand's aesthetic and operational needs without off-the-shelf platform compromises.",
       tech_stack: [
@@ -290,11 +290,11 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "Resume App",
       client: "Fast Dog Coding, LLC (Internal)",
       role: "Principal Architect / Sole Proprietor",
-      lede: "An interactive, data-driven resume that both tells and shows career history—always current at a single URL and serving as a live skills demonstration.",
+      lede: "We built an interactive, data-driven resume that both tells and shows career history—always current at a single URL and serving as a live skills demonstration.",
       challenge:
         "Proprietary client work cannot be shown publicly; needed a demonstration application that proves skills while delivering a resume above the ordinary printed variety.",
       approach:
-        "Merged resume and demo app into one Express application with Handlebars views, IBM Cloudant for structured career data, and D3.js visualizations—deployed on IBM Cloud Foundry. Open-sourced on GitHub for pre-interview technical review.",
+        "We merged resume and demo app into one Express application with Handlebars views, IBM Cloudant for structured career data, and D3.js visualizations—deployed on IBM Cloud Foundry. Open-sourced on GitHub for pre-interview technical review.",
       impact:
         "Always-up-to-date resume link that never goes stale; saves interviewers time with inspectable source code; foundation for future dynamic Word export from the same data source.",
       tech_stack: [
@@ -319,11 +319,11 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "Digital Learning Guide",
       client: "REDspace, Inc. (for IBM)",
       role: "Principal Developer",
-      lede: "Led a multi-year evolution of a global learning ecosystem, including automated data sync and a comprehensive reviewer dashboard.",
+      lede: "We led a multi-year evolution of a global learning ecosystem, including automated data sync and a comprehensive reviewer dashboard.",
       challenge:
         "IBM's global learning platform needed continuous evolution to serve a worldwide workforce with reliable content delivery, automated synchronization across backends, and a robust editorial workflow for reviewers.",
       approach:
-        "Over a sustained engagement I led technical evolution—designing a Worker Queue for automated data sync, building a comprehensive reviewer dashboard, and modernizing toward Node.js, Express, and Angular on IBM Cloudant and IBM Cloud.",
+        "Over a sustained engagement we led technical evolution—designing a Worker Queue for automated data sync, building a comprehensive reviewer dashboard, and modernizing toward Node.js, Express, and Angular on IBM Cloudant and IBM Cloud.",
       impact:
         "A durable piece of IBM's global learning infrastructure, demonstrating the value of sustained architectural investment at enterprise scale.",
       tech_stack: [
@@ -351,7 +351,7 @@ export const EXHIBITS: ExhibitSeed[] = [
       challenge:
         "Organizations needed to enforce data-leakage policies at the mail server boundary—intercepting sensitive content in flight without degrading messaging performance or reliability.",
       approach:
-        "I developed a C++ Domino server add-in using the IBM Domino C API and real-time messaging hooks to inspect and act on email traffic as it moved through the infrastructure.",
+        "Developed a C++ Domino server add-in using the IBM Domino C API and real-time messaging hooks to inspect and act on email traffic as it moved through the infrastructure.",
       impact:
         "Production-grade DLP capability integrated directly into the messaging path customers already trusted.",
       tech_stack: ["C++", "IBM Domino C API", "Real-time Messaging"],
@@ -368,11 +368,11 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "Phoenix",
       client: "Innovation Works, Inc.",
       role: "Senior Product Developer",
-      lede: "Comprehensive intake and tracking for venture capital investment opportunities across the full funding lifecycle.",
+      lede: "Built comprehensive intake and tracking for venture capital investment opportunities across the full funding lifecycle.",
       challenge:
         "Seed-stage investment programs required rigorous tracking from first solicitation through multiple funding rounds, with reporting that satisfied state-level compliance and audit requirements.",
       approach:
-        "I engineered the application on IBM Notes and Domino with LotusScript, including mission-critical reporting modules aligned to regulatory obligations for seed-stage investments.",
+        "Engineered the application on IBM Notes and Domino with LotusScript, including mission-critical reporting modules aligned to regulatory obligations for seed-stage investments.",
       impact:
         "A dependable system of record for opportunity flow, follow-on rounds, and mandated compliance outputs.",
       tech_stack: ["IBM Notes & Domino", "LotusScript"],
@@ -389,11 +389,11 @@ export const EXHIBITS: ExhibitSeed[] = [
       title: "Exposure Monitoring System",
       client: "CISCorp (for Bayer, Inc.)",
       role: "Senior Product Developer",
-      lede: "Specialized data management for industrial hygienists monitoring workforce exposure to hazardous chemicals, noise, and radiation.",
+      lede: "Built specialized data management for industrial hygienists monitoring workforce exposure to hazardous chemicals, noise, and radiation.",
       challenge:
         "Industrial hygiene teams needed to correlate field samples, personnel, locations, and laboratory results to support mandatory OSHA compliance reporting.",
       approach:
-        "I architected a Domino-based application that streamlined end-to-end tracking of sampling events and outcomes, giving hygienists a single system for exposure records and audit trails.",
+        "Architected a Domino-based application that streamlined end-to-end tracking of sampling events and outcomes, giving hygienists a single system for exposure records and audit trails.",
       impact:
         "More reliable exposure documentation and faster path to compliance-ready reporting.",
       tech_stack: ["IBM Notes & Domino", "LotusScript"],
@@ -414,7 +414,7 @@ export const EXHIBITS: ExhibitSeed[] = [
       challenge:
         "Branch employees transitioning from green-screen terminals needed a modern intranet experience—bilingual, editor-friendly, and deliverable on an immovable go-live date.",
       approach:
-        "I built a split-screen translation interface for Notes client editors and leveraged Domino HTTP capabilities to serve web content at scale, coordinating delivery across language and platform constraints.",
+        "Built a split-screen translation interface for Notes client editors and leveraged Domino HTTP capabilities to serve web content at scale, coordinating delivery across language and platform constraints.",
       impact:
         "Successful launch on schedule, giving the organization a credible intranet foundation during a major workplace technology shift.",
       tech_stack: ["IBM Notes & Domino 4.6", "Legacy Web Development"],

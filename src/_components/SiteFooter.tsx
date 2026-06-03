@@ -33,20 +33,34 @@ export async function SiteFooter() {
               {channel.short_label || channel.label}
             </a>
           ))}
+          <a
+            href="/files/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-secondary transition-colors duration-150 hover:text-accent"
+          >
+            Resume
+          </a>
         </div>
 
         {/* Legal */}
         <div className="flex items-center gap-4 text-sm text-secondary">
           <span>&copy; {currentYear} <span className="text-primary">Fast Dog Coding, LLC.</span></span>
           <a
+            href="/testimonials"
+            className="transition-colors duration-150 hover:text-accent"
+          >
+            Testimonials
+          </a>
+          <a
             href="/legal"
-            className="transition-colors duration-150 hover:text-primary"
+            className="transition-colors duration-150 hover:text-accent"
           >
             Legal
           </a>
           <a
             href="/privacy"
-            className="transition-colors duration-150 hover:text-primary"
+            className="transition-colors duration-150 hover:text-accent"
           >
             Privacy
           </a>
