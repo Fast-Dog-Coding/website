@@ -2,6 +2,11 @@ import "@testing-library/jest-dom/vitest";
 import React from "react";
 import { vi } from "vitest";
 
+declare global {
+  // eslint-disable-next-line no-var
+  var IS_REACT_ACT_ENVIRONMENT: boolean;
+}
+
 // React 19 + Testing Library expect act in a test environment.
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
