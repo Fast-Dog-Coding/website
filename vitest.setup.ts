@@ -2,6 +2,9 @@ import "@testing-library/jest-dom/vitest";
 import React from "react";
 import { vi } from "vitest";
 
+// React 19 + Testing Library expect act in a test environment.
+globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+
 vi.mock("@/lib/gql/fetch", () => ({
   gqlFetch: vi.fn().mockResolvedValue({ pages: [] }),
 }));

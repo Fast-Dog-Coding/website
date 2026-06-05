@@ -34,8 +34,8 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest",
-    "test:run": "vitest run"
+    "test": "NODE_ENV=test vitest",
+    "test:run": "NODE_ENV=test vitest run"
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
