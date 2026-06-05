@@ -1,0 +1,38 @@
+MIT License
+
+Copyright (c) 2026 Fast Dog Coding, LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Trademark Notice
+
+The "Fast Dog Coding" name, logo, greyhound brand mark, and related brand
+assets are trademarks of Fast Dog Coding, LLC. This license grants permission
+to use the Software's source code — it does not grant permission to use
+Fast Dog Coding trademarks in a way that suggests endorsement, affiliation,
+or that a derivative work is the official Fast Dog Coding website.
+
+You may fork, clone, and adapt this codebase to build your own portfolio or
+project. If you publish a public site based on this code, replace the branding
+with your own and do not present it as fastdogcoding.com or an official
+Fast Dog Coding property.
+
+For questions about permitted trademark use, contact info@fastdogcoding.com.

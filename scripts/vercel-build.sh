@@ -26,4 +26,6 @@ if [ -n "${SEED_DATABASE:-}" ]; then
   npx prisma db seed
 fi
 
+npm run test:run
+
 exec next build

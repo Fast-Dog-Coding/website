@@ -1,7 +1,30 @@
 {
   "name": "fdc-website",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Fast Dog Coding portfolio site — a server-driven UI showcase built with Next.js, GraphQL, and Prisma.",
+  "keywords": [
+    "fast-dog-coding",
+    "nextjs",
+    "graphql",
+    "prisma",
+    "postgresql",
+    "portfolio",
+    "server-driven-ui",
+    "react"
+  ],
+  "homepage": "https://fastdogcoding.com",
+  "bugs": {
+    "url": "https://github.com/Fast-Dog-Coding/website/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fast-Dog-Coding/website.git"
+  },
+  "license": "MIT",
+  "author": "Grant Lindsay <info@fastdogcoding.com>",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
     "launch": "zsh scripts/dev.sh",
@@ -10,7 +33,9 @@
     "db:seed": "prisma db seed",
     "postinstall": "prisma generate",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
