@@ -232,7 +232,8 @@ export const EXHIBITS: ExhibitSeed[] = [
     pageTitle: "Edvisor — LMS Modernization",
     metaDesc:
       "High-stakes migration of a global LMS serving 80,000 employees from legacy IBM Domino to a modern stack.",
-    data: {
+      testimonialSlug: "testimonial-andrew",
+      data: {
       title: "Edvisor",
       client: "REDspace, Inc. (for Kyndryl)",
       role: "Modernization Lead",
@@ -314,7 +315,7 @@ export const EXHIBITS: ExhibitSeed[] = [
     pageTitle: "Digital Learning Guide — Global Learning Ecosystem",
     metaDesc:
       "Multi-year evolution of a global learning ecosystem serving IBM's worldwide workforce.",
-    testimonialSlug: "testimonial-andrew",
+    testimonialSlug: "testimonial-jenn",
     data: {
       title: "Digital Learning Guide",
       client: "REDspace, Inc. (for IBM)",
