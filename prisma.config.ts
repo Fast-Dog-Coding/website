@@ -6,12 +6,15 @@
  */
 
 import "dotenv/config";
-import { defineConfig, env } from "prisma/config";
+import { defineConfig } from "prisma/config";
+
+/** Matches .env.example — prisma generate does not connect; real DB URLs are enforced elsewhere. */
+const LOCAL_DATABASE_URL = "postgresql://localhost:5432/fdc_website";
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
   datasource: {
-    url: env("DATABASE_URL"),
+    url: process.env.DATABASE_URL ?? LOCAL_DATABASE_URL,
   },
   migrations: {
     seed: "npx tsx prisma/seed.ts",
