@@ -4,12 +4,12 @@
  * Fast Dog Coding — Design System Tokens
  * Source: Technical Design Spec § 3
  *
- * Dark-mode-first. There is no light mode.
+ * Dark-mode-first defaults; light palette applied via prefers-color-scheme.
  * All token names map 1:1 to Tailwind utility classes:
  *   bg-background, text-primary, border-border, shadow-lift, etc.
  */
 
-@theme inline {
+@theme {
   /* ── Colors ── */
   --color-background: #111111;     /* Primary dark background */
   --color-surface: #1A1A1A;        /* Card and panel backgrounds */
@@ -56,13 +56,31 @@
   --shadow-accent-glow: 0 0 12px rgba(190, 149, 65, 0.4);
 }
 
+html {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-background: #F5F5F5;
+    --color-surface: #FFFFFF;
+    --color-border: #E5E5E5;
+    --color-primary: #111111;
+    --color-secondary: #6B6B6B;
+    --color-accent: #BE9541;
+    --color-accent-hover: #D1A758;
+    --shadow-lift: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-accent-glow: 0 0 12px rgba(190, 149, 65, 0.4);
+  }
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-primary);
   font-family: var(--font-sans);
 }
 
-/* ── Prose styles for dark-mode Markdown rendering ── */
+/* ── Prose styles for Markdown rendering ── */
 .prose-fdc {
   line-height: 1.75;
 }
