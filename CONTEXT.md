@@ -157,7 +157,7 @@ reflect what ships.
 | Layer | Choice | Notes |
 |---|---|---|
 | Frontend | Next.js 16 App Router (TypeScript) | `src/` directory; read `node_modules/next/dist/docs/` for API changes |
-| Styling | Tailwind CSS v4 | Theme tokens in `src/app/globals.css` (TDS § 3) |
+| Styling | Tailwind CSS v4 | Theme tokens in `src/app/globals.css` (TDS § 3); appearance follows OS via `prefers-color-scheme` |
 | API | GraphQL via Apollo Server 5 | `src/app/api/graphql/route.ts` — **queries only** |
 | Data fetching | `gqlFetch` + tagged queries | `src/lib/gql/fetch.ts`, `src/lib/gql/queries.ts` |
 | ORM | Prisma 7 + `@prisma/adapter-pg` | Models: `Page`, `Section`, `PageSection` |
@@ -244,8 +244,9 @@ Technical_Design_Spec.md
 
 ## Brand & Design Tokens (from TDS § 3)
 
-- **Mode:** Dark-mode first
-- **Palette:** `background: #111111`, `surface: #1A1A1A`, `border: #2D2D2D`, `primary: #F5F5F5`, `secondary: #A3A3A3`, `accent: #BE9541`, `accent-hover: #D1A758`
+- **Mode:** System-driven via `prefers-color-scheme` — no site-level toggle. Dark palette is the default; light palette applies when the OS/browser prefers light. Source of truth: `src/app/globals.css` (`@theme` — not `inline`, so utilities reference CSS variables + `@media (prefers-color-scheme: light)` overrides on `:root`).
+- **Dark palette (default):** `background: #111111`, `surface: #1A1A1A`, `border: #2D2D2D`, `primary: #F5F5F5`, `secondary: #A3A3A3`, `accent: #BE9541`, `accent-hover: #D1A758`
+- **Light palette:** `background: #F5F5F5`, `surface: #FFFFFF`, `border: #E5E5E5`, `primary: #111111`, `secondary: #6B6B6B`, `accent: #BE9541`, `accent-hover: #D1A758`
 - **Font:** Geist Sans (primary), Geist Mono (mono) — via `next/font/google`
 - **Motion:** Subtle micro-interactions only. No parallax, no hero carousels, no full-page transitions.
 - **Dog imagery:** None anywhere on the site except potentially one photo on `/about`.
