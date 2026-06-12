@@ -28,6 +28,12 @@ export async function SiteFooter() {
             <a
               key={channel.short_label || channel.label}
               href={channel.href}
+              target="_blank"
+              rel={
+                channel.href.includes("https://")
+                  ? "noopener noreferrer"
+                  : undefined
+              }
               className="text-sm text-secondary transition-colors duration-150 hover:text-accent"
             >
               {channel.short_label || channel.label}
@@ -36,7 +42,6 @@ export async function SiteFooter() {
           <a
             href="/files/resume.pdf"
             target="_blank"
-            rel="noopener noreferrer"
             className="text-sm text-secondary transition-colors duration-150 hover:text-accent"
           >
             Resume
