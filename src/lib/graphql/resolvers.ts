@@ -9,6 +9,7 @@
  * JSON and DateTime scalars are pass-through (Prisma handles serialization).
  */
 
+import { enrichSectionRecord } from "@/lib/cta-channels";
 import { prisma } from "@/lib/prisma";
 import { GraphQLScalarType, Kind } from "graphql";
 import type {
@@ -90,11 +91,13 @@ function flattenPageSections(page: {
   const { pageSections, ...rest } = page;
   return {
     ...rest,
-    sections: pageSections.map((ps) => ({
-      ...ps.section,
-      sortOrder: ps.sortOrder,
-      displayHint: ps.displayHint,
-    })),
+    sections: pageSections.map((ps) =>
+      enrichSectionRecord({
+        ...ps.section,
+        sortOrder: ps.sortOrder,
+        displayHint: ps.displayHint,
+      } as Record<string, unknown>)
+    ),
   };
 }
 
@@ -181,9 +184,10 @@ export const resolvers = {
      * Useful for direct section access (e.g., SiteFooter fetching CTA data).
      */
     section: async (_parent: unknown, args: SectionQueryArgs) => {
-      return prisma.section.findUnique({
+      const section = await prisma.section.findUnique({
         where: { slug: args.slug },
       });
+      return section ? enrichSectionRecord(section) : null;
     },
 
     /**
@@ -191,9 +195,10 @@ export const resolvers = {
      * Useful for aggregation views (e.g., all testimonials).
      */
     sectionsByType: async (_parent: unknown, args: SectionsByTypeArgs) => {
-      return prisma.section.findMany({
+      const sections = await prisma.section.findMany({
         where: { type: args.type },
       });
+      return sections.map(enrichSectionRecord);
     },
   },
 };
