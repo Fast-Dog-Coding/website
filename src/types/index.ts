@@ -96,6 +96,28 @@ export interface TestimonialData {
   snippets: string[];
 }
 
+/** Stored CTA channel row (seed / JSONB). Link attrs are added at fetch time. */
+export interface CtaChannel {
+  label: string;
+  short_label?: string;
+  href: string;
+  icon: string;
+  micro_copy: string;
+}
+
+/** CTA channel after fetch-time link enrichment. */
+export interface EnrichedCtaChannel extends CtaChannel {
+  target: "_blank";
+  rel?: "noopener noreferrer";
+}
+
+/** CTA section data (JSONB) */
+export interface CtaSectionData {
+  heading: string;
+  subheading?: string;
+  channels: EnrichedCtaChannel[];
+}
+
 // ── GraphQL Response Types ──
 
 /** Shape returned by the page() GraphQL query */

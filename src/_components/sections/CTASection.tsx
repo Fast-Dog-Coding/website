@@ -5,18 +5,7 @@
  * Source: TDS § 3 wireframe (lines 499–537)
  */
 
-interface CTAChannel {
-  label: string;
-  href: string;
-  icon: string;
-  micro_copy: string;
-}
-
-interface CTAData {
-  heading: string;
-  subheading?: string;
-  channels: CTAChannel[];
-}
+import type { CtaSectionData } from "@/types";
 
 /** Inline SVG icons for the four CTA channels */
 function ChannelIcon({ icon }: { icon: string }) {
@@ -53,7 +42,7 @@ function ChannelIcon({ icon }: { icon: string }) {
 }
 
 export function CTASection({ data }: { data: Record<string, unknown> }) {
-  const { heading, subheading, channels } = data as unknown as CTAData;
+  const { heading, subheading, channels } = data as unknown as CtaSectionData;
 
   return (
     <section className="w-full py-16 md:py-24">
@@ -69,8 +58,8 @@ export function CTASection({ data }: { data: Record<string, unknown> }) {
             <a
               key={channel.icon}
               href={channel.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={channel.target}
+              rel={channel.rel}
               className="group flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface p-6 text-center transition-colors duration-200 hover:border-accent hover:bg-background"
             >
               <ChannelIcon icon={channel.icon} />
