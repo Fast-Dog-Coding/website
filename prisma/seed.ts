@@ -138,10 +138,10 @@ async function main() {
   const homeHero = await createSection(
     "hero",
     {
-      heading: "Principal-Level Architecture. Enterprise-Grade Execution.",
+      heading: "Listen carefully. Think deeply. Build deliberately.",
       subheading:
-        "We design and build the robust, scalable digital foundations that drive your business forward.",
-      cta_label: "Explore the Showcases",
+        "We focus on solving your problems the right way.",
+      cta_label: "Explore the Gallery",
       cta_href: "/gallery",
     },
     "hero-home"
@@ -236,7 +236,7 @@ async function main() {
       heading: "About",
       subheading:
         "The architect, the philosophy, and the greyhounds that started it all.",
-      cta_label: "Explore the Showcases",
+      cta_label: "Explore the Gallery",
       cta_href: "/gallery",
     },
     "hero-about"
