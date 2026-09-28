@@ -138,7 +138,7 @@ async function main() {
   const homeHero = await createSection(
     "hero",
     {
-      heading: "Listen carefully. Think deeply. Build deliberately.",
+      heading: "Listen carefully. Think deeply. Build deliberately.",
       subheading:
         "We focus on solving your problems the right way.",
       cta_label: "Explore the Gallery",
