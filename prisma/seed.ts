@@ -219,7 +219,7 @@ async function main() {
         "For well-defined, long-term projects requiring dedicated architectural leadership and hands-on development. We integrate directly with your team to drive technical initiatives from concept to completion.",
         "",
         "### Advisory & Retainer",
-        "Think, fractional. For organizations needing ongoing, high-level technical guidance. This model provides consistent access for strategic planning, architectural reviews, and critical decision-making support without a full-time commitment.",
+        "Think fractional. For organizations needing ongoing, high-level technical guidance. This model provides consistent access for strategic planning, architectural reviews, and critical decision-making support without a full-time commitment.",
         "",
         "### Project-Based Scopes",
         "For specific, outcome-oriented initiatives like a performance audit, an API design project, a proof-of-concept build, or an applied-AI pilot with a defined data set, a success measure, and a shippable slice. We'll define the scope, deliverables, and timeline to meet a precise business objective.",
