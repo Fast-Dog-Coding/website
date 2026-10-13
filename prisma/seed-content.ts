@@ -165,22 +165,20 @@ export const EXHIBITS: ExhibitSeed[] = [
     sortOrder: 2,
     pageTitle: "Candidate Vantage — AI Job Fit Scoring",
     metaDesc:
-      "AI-driven lead scoring that evaluates job descriptions against historical suitability and behavioral data.",
+      "AI-driven lead scoring that collects job postings and evaluates them on a 1–5 scale with Jev requirement probabilities.",
     data: {
       title: "Candidate Vantage",
       client: "Fast Dog Coding, LLC (Internal)",
       role: "AI Architect / Sole Proprietor",
-      lede: "We built an AI-driven lead scoring tool that evaluates job descriptions on a 1–5 scale based on historical suitability and behavioral data.",
+      lede: "We built an AI-driven lead scoring tool that collects job postings from a browser extension and a Grok mail collector, then evaluates them on a 1–5 scale with Jev requirement probabilities.",
       challenge:
         "Evaluating whether a job posting is worth pursuing means weighing fit, risk, and opportunity cost—often with incomplete information and no structured way to learn from past decisions.",
       approach:
-        "We built an Nx monorepo with a NestJS backend and Angular frontend: a Chrome extension scrapes job postings, Google Gemini AI scores them against a personal profile stored in MongoDB, auto-archives low fits, generates tailored resumes and cover letters, sends Slack alerts for high-value matches, and provides a Kanban dashboard with real-time updates via Socket.io.",
+        "We built an Nx monorepo with a NestJS backend and Angular frontend. A Chrome extension captures job pages, and a separate Grok bot reads forwarded job-board alerts into a MongoDB discovery inbox as full text, an incomplete shell, or closed. The queue fills while the app is down; the app scores fit after ingest. Jev on OpenRouter scores complete postings 1–5 from requirement probabilities against a resume slice and an authored fit card (skills, watchlist, location, and workplace). Scores of 1–2 archive automatically. Google Gemini explains scores of 3–5 and writes tailored resumes and cover letters for 4–5. Slack alerts and a Socket.io Kanban board track the pipeline.",
       impact:
-        "Faster, more consistent prioritization of opportunities aligned with real track record—not just headline requirements.",
+        "Opportunities are prioritized from explicit requirement probabilities, and job-board alerts still land in the queue when the app is not running.",
       tech_stack: [
         "Node.js",
-        "OpenAI API (Assistants)",
-        "Vector Stores",
         "TypeScript",
         "NestJS",
         "Angular",
@@ -189,6 +187,9 @@ export const EXHIBITS: ExhibitSeed[] = [
         "PostgreSQL",
         "MongoDB",
         "Google Gemini",
+        "OpenRouter",
+        "Jev",
+        "Grok",
         "Socket.io",
         "Chrome Extension",
         "Slack",
