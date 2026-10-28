@@ -1,0 +1,22 @@
+{
+  "name": "@fastdogcoding/resume-master",
+  "version": "1.3.0",
+  "description": "HTTP client for the Fast Dog Coding resume-master projection service (v1.3.0).",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}

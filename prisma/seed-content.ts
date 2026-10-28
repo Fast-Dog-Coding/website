@@ -1,431 +1,470 @@
 /**
- * Production content for prisma/seed.ts
- * Sourced from MongoDB resume-assistant.knowledge (LinkedIn recommendations + project catalog).
+ * Static non-resume page and section seeds.
+ *
+ * Written by prisma/seed.ts before any resume-master sync:
+ * home, services, about, contact, legal, privacy, the gallery index,
+ * the testimonials index, and cta-default (plus the contact-page CTA).
+ *
+ * Exhibit and testimonial bodies are not stored here. resume-master is the
+ * source of truth; seed.ts syncs them when RESUME_API_KEY is set.
  */
 
-import type { ExhibitData, TestimonialData } from "../src/types";
+import type { Prisma, PrismaClient } from "@prisma/client";
 
-export type TestimonialSeed = {
-  slug: string;
-  data: TestimonialData;
-};
+export async function seedStaticSite(prisma: PrismaClient): Promise<void> {
+  async function createSection(
+    type: string,
+    data: Prisma.InputJsonValue,
+    slug?: string
+  ) {
+    return prisma.section.create({
+      data: { type, data, slug: slug ?? null },
+    });
+  }
 
-export type ExhibitSeed = {
-  exhibitSlug: string;
-  pageSlug: string;
-  sortOrder: number;
-  pageTitle: string;
-  metaDesc: string;
-  data: ExhibitData;
-  /** Section slug for optional compact/full testimonial on gallery child page */
-  testimonialSlug?: string;
-};
-
-export const TESTIMONIALS: TestimonialSeed[] = [
-  {
-    slug: "testimonial-jason",
-    data: {
-      name: "Jason Lickliter",
-      role: "Full-Stack Developer / Solutions Consultant",
-      company: "KS2 Technologies, Inc.",
-      content:
-        "Grant and I worked together at KS2 across the full stack—and he consistently delivered. No drama, no handholding required. He'd take ownership of a feature, think through the edge cases before they became production incidents, and ship clean TypeScript that didn't make the next developer want to rewrite everything.\n\nWhat I appreciated most was his ability to understand the business context, not just the ticket. He asks why before diving into how, which saves everyone time and keeps the architecture from drifting into accidental complexity. His attention to the details of processes and documentation is methodical—the kind where six months later you can actually trace what was built and why.\n\nHe's also one of those developers who makes the team better—generous with context, willing to pair when it makes sense, and actually listens when someone else has a different approach. That matters when you're moving fast on enterprise projects.\n\nIf you need someone who can own critical systems and work autonomously without creating tech debt landmines, Grant's your guy.",
-      snippets: [
-        "No drama, no handholding required.",
-        "If you need someone who can own critical systems and work autonomously without creating tech debt landmines, Grant's your guy.",
-      ],
-    },
-  },
-  {
-    slug: "testimonial-luis",
-    data: {
-      name: "Luis Garcia-Perez",
-      role: "Lead Software Architect",
-      company: "KS2 Technologies, Inc.",
-      content:
-        "I had the pleasure of working closely with Grant Lindsay at KS2. He was a key part of the team across the full stack - from Angular on the frontend to Node.js and PostgreSQL on the backend - and made a big impact on the project.\n\nHe has a strong eye for clean, scalable TypeScript and a natural ability to solve complex architectural challenges without losing sight of the user experience.\n\nBeyond his technical skills, Grant is a collaborative teammate who's always willing to share knowledge and help the team move faster. I'd highly recommend him to any team looking for a strong developer.",
-      snippets: [
-        "A strong eye for clean, scalable TypeScript and a natural ability to solve complex architectural challenges without losing sight of the user experience.",
-        "A collaborative teammate who's always willing to share knowledge and help the team move faster.",
-      ],
-    },
-  },
-  {
-    slug: "testimonial-andrew",
-    data: {
-      name: "Andrew Hamilton",
-      role: "Director of Client Engineering",
-      company: "REDspace, Inc.",
-      content:
-        "Grant is a very strong software engineer who is able to architect and implement complex solutions of any scale. In my years of working with him at REDspace he always proved himself to be the backbone of any project he was involved with. Grant is a very thorough and detail oriented technical problem solver with a ton of experience to bring to any team. On top of his technical experience Grant brings his great personality and passion to enhance any team dynamic. He is a great mentor and goes out of his way to assist and help those working around him grow. I highly recommend Grant to anyone looking to build a successful team or project outcome. You can never go wrong having Grant working with you to support your goals and outcomes.",
-      snippets: [
-        "The backbone of any project he was involved with.",
-        "A very thorough and detail oriented technical problem solver with a ton of experience to bring to any team.",
-      ],
-    },
-  },
-  {
-    slug: "testimonial-caro",
-    data: {
-      name: "Caro Urquhart",
-      role: "Senior Full Stack Software Developer",
-      company: "REDspace, Inc.",
-      content:
-        "Grant is one of the most talented software engineers I have worked with. We have been working together for around 7 years building apps for the IBM DLG ecosystem. Excellent hard skills from database to the frontend. Highly skilled architecturing features, products, and proposing solutions to complex problems.\n\nHe is also an excellent team player, who is really nice at mentoring co-workers in the new tools or frameworks when changes are needed. A very reliable, rock solid professional, taking ownership of features and organizing tasks for the team. Grant also has a gentle, friendly and considerate personality that contributes positively in the work environment.",
-      snippets: [
-        "One of the most talented software engineers I have worked with.",
-        "A very reliable, rock solid professional, taking ownership of features and organizing tasks for the team.",
-      ],
-    },
-  },
-  {
-    slug: "testimonial-jenn",
-    data: {
-      name: "Jenn Priske",
-      role: "Senior Executive",
-      company: "REDspace Inc.",
-      content:
-        "I had the distinct pleasure of working with Grant for about 10 years and I hope I get the chance again. Grant is always eager to learn new things, he is a lifelong learner. A strong developer who is meticulous in his approach to code. He takes care to understand the business requirements and is curious about possible solution approaches. He is patient and always willing to the take time to share his point of view, but more importantly, to understand the view of others. He feels successful when the team is successful. He takes a customer-focused approach, always ensuring a clear ROI. If you have the opportunity to work with Grant, I highly recommend you take it!",
-      snippets: [
-        "A strong developer who is meticulous in his approach to code.",
-        "If you have the opportunity to work with Grant, I highly recommend you take it!",
-      ],
-    },
-  },
-];
-
-export const EXHIBITS: ExhibitSeed[] = [
-  {
-    exhibitSlug: "exhibit-portfolio-website",
-    pageSlug: "portfolio-website",
-    sortOrder: 1,
-    pageTitle: "Fast Dog Coding Portfolio Website — Server-Driven UI Showcase",
-    metaDesc:
-      "Server-driven portfolio site demonstrating architectural capability as an interactive proof of the exact stack prospects would hire for.",
-    data: {
-      title: "Portfolio Website",
-      client: "Fast Dog Coding, LLC (Internal)",
-      role: "AI Architect / Sole Proprietor",
-      lede: "We built this server-driven portfolio site to demonstrate architectural capability while serving as the primary showcase for contract consulting prospects.",
-      challenge:
-        "Must convince enterprise evaluators of architectural depth—not read like a static brochure—while staying extensible without code changes for every new page or section.",
-      approach:
-        "We built on Server-Driven UI: PostgreSQL stores pages, reusable sections, and join rows; a GraphQL read API feeds a fixed vocabulary of React section renderers. Next.js 16 App Router, Apollo Server 5, Prisma 7, Tailwind CSS v4.",
-      impact:
-        "The site is itself proof of the stack—an interactive demonstration of the exact technologies prospects would hire for, with the recursive twist that the site appears in its own project gallery.",
-      tech_stack: [
-        "Next.js",
-        "React",
-        "TypeScript",
-        "GraphQL",
-        "Apollo Server",
-        "PostgreSQL",
-        "Prisma",
-        "Tailwind CSS",
-        "Google Gemini",
-        "vitest",
-        "Vercel",
-      ],
-    },
-  },
-  {
-    exhibitSlug: "exhibit-homesalesone",
-    pageSlug: "homesalesone",
-    sortOrder: 4,
-    pageTitle: "HomeSalesOne — Enterprise Home Sales Automation",
-    metaDesc:
-      "Full-stack enterprise automation platform for home sales offices, augmenting in-house teams with high-value features.",
-    testimonialSlug: "testimonial-jason",
-    data: {
-      title: "HomeSalesOne",
-      client: "KS2 Technologies, Inc.",
-      role: "Principal Full-Stack Developer (Contractor)",
-      lede: "We helped KS2 revitalize HomeSalesOne—an enterprise sales-office platform already in production—by delivering retention-critical work on the current release while co-building its next generation on a new stack and hosting platform.",
-      challenge:
-        "When Fast Dog Coding joined KS2, HomeSalesOne was a mature production platform regional homebuilders relied on every day—with executive sponsorship to evolve it, not just maintain it.",
-      approach:
-        "We worked on two parallel tracks: shipping selective, high-value features on the production stack—Angular, Node.js, DB2, and IBM Cloudant—to keep current clients engaged, while designing and building the next version on a new stack and hosting platform.",
-      impact:
-        "Accelerated KS2's product roadmap: steadier reliability and feature delivery on the live platform, plus meaningful progress on the greenfield rewrite ready for market.",
-      tech_stack: [
-        "Node.js",
-        "Angular",
-        "PostgreSQL",
-        "Sequelize",
-        "DB2",
-        "IBM Cloudant",
-        "Redis",
-        "Google Gemini",
-      ],
-    },
-  },
-  {
-    exhibitSlug: "exhibit-candidate-vantage",
-    pageSlug: "candidate-vantage",
-    sortOrder: 2,
-    pageTitle: "Candidate Vantage — AI Job Fit Scoring",
-    metaDesc:
-      "AI-driven lead scoring that collects job postings and evaluates them on a 1–5 scale with Jev requirement probabilities.",
-    data: {
-      title: "Candidate Vantage",
-      client: "Fast Dog Coding, LLC (Internal)",
-      role: "AI Architect / Sole Proprietor",
-      lede: "We built an AI-driven lead scoring tool that collects job postings from a browser extension and a Grok mail collector, then evaluates them on a 1–5 scale with Jev requirement probabilities.",
-      challenge:
-        "Evaluating whether a job posting is worth pursuing means weighing fit, risk, and opportunity cost—often with incomplete information and no structured way to learn from past decisions.",
-      approach:
-        "We built an Nx monorepo with a NestJS backend and Angular frontend. A Chrome extension captures job pages, and a separate Grok bot reads forwarded job-board alerts into a MongoDB discovery inbox as full text, an incomplete shell, or closed. The queue fills while the app is down; the app scores fit after ingest. Jev on OpenRouter scores complete postings 1–5 from requirement probabilities against a resume slice and an authored fit card (skills, watchlist, location, and workplace). Scores of 1–2 archive automatically. Google Gemini explains scores of 3–5 and writes tailored resumes and cover letters for 4–5. Slack alerts and a Socket.io Kanban board track the pipeline.",
-      impact:
-        "Opportunities are prioritized from explicit requirement probabilities, and job-board alerts still land in the queue when the app is not running.",
-      tech_stack: [
-        "Node.js",
-        "TypeScript",
-        "NestJS",
-        "Angular",
-        "Nx",
-        "Prisma",
-        "PostgreSQL",
-        "MongoDB",
-        "Google Gemini",
-        "OpenRouter",
-        "Jev",
-        "Grok",
-        "Socket.io",
-        "Chrome Extension",
-        "Slack",
-      ],
-    },
-  },
-  {
-    exhibitSlug: "exhibit-candidate-concierge",
-    pageSlug: "candidate-concierge",
-    sortOrder: 3,
-    pageTitle: "Candidate Concierge — AI-Powered RAG Chatbot",
-    metaDesc:
-      "Vercel-hosted chatbot utilizing RAG for real-time, context-aware professional capability responses.",
-    data: {
-      title: "Candidate Concierge",
-      client: "Fast Dog Coding, LLC (Internal)",
-      role: "AI Architect / Sole Proprietor",
-      lede: "We built a Vercel-hosted chatbot utilizing RAG to provide real-time, context-aware responses regarding professional capabilities.",
-      challenge:
-        "Traditional resumes and portfolios are static—they cannot answer follow-up questions or adapt to context-specific inquiries about experience and fit.",
-      approach:
-        "We designed and deployed a Retrieval-Augmented Generation chatbot on Vercel, loading professional documentation from a MongoDB knowledge base into the system prompt and routing LLM requests through OpenRouter so responses stay grounded in retrievable facts rather than speculation.",
-      impact:
-        "An always-available AI concierge that discusses experience, technical capabilities, and project history with sourced accuracy. The app is available to try at https://candidate-concierge.fastdogcoding.com/.",
-      tech_stack: [
-        "AWS App Runner",
-        "Node.js",
-        "OpenAI API",
-        "Google Gemini",
-        "Vector Stores",
-        "RAG",
-        "Express",
-        "EJS",
-        "MongoDB",
-        "Mongoose",
-        "OpenRouter",
-        "LLM",
-        "Vercel",
-        "Winston",
-      ],
-    },
-  },
-  {
-    exhibitSlug: "exhibit-edvisor",
-    pageSlug: "edvisor",
-    sortOrder: 5,
-    pageTitle: "Edvisor — LMS Modernization",
-    metaDesc:
-      "High-stakes migration of a global LMS serving 80,000 employees from legacy IBM Domino to a modern stack.",
-      testimonialSlug: "testimonial-andrew",
+  /** Wire a section onto a page at a given position */
+  async function placeSection(
+    pageId: string,
+    sectionId: string,
+    sortOrder: number,
+    displayHint?: string
+  ) {
+    return prisma.pageSection.create({
       data: {
-      title: "Edvisor",
-      client: "REDspace, Inc. (for Kyndryl)",
-      role: "Modernization Lead",
-      lede: "We executed a high-stakes migration of a global LMS serving 80,000 employees from legacy IBM Domino to a modern stack under aggressive sunset deadlines.",
-      challenge:
-        "A global learning management system serving tens of thousands of employees faced a hard platform sunset—requiring a complete migration off IBM Domino without disrupting learners or administrators.",
-      approach:
-        "We led the modernization effort on an accelerated timeline, delivering Node.js and Express services backed by MongoDB and RESTful APIs while bridging coexistence with the legacy Domino environment.",
-      impact:
-        "Successful cutover to a modern stack before the sunset window closed, preserving continuity for a workforce-scale LMS.",
-      tech_stack: [
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "RESTful APIs",
-        "IBM Domino",
-      ],
+        pageId,
+        sectionId,
+        sortOrder,
+        displayHint: displayHint ?? null,
+      },
+    });
+  }
+
+  // ════════════════════════════════════════════════════════════════
+  // 1. REUSABLE SECTIONS (shared across multiple pages)
+  // ════════════════════════════════════════════════════════════════
+
+  // ── Contact Channels Configuration ──
+  const CONTACT_CHANNELS = [
+    {
+      label: "Ping Grant on LinkedIn",
+      short_label: "LinkedIn",
+      href: "https://www.linkedin.com/in/grant-lindsay-us/",
+      icon: "linkedin",
+      micro_copy: "For professional networking and industry chat.",
     },
-  },
-  {
-    exhibitSlug: "exhibit-lita",
-    pageSlug: "lita",
-    sortOrder: 6,
-    pageTitle: "CMS and Storefront — Lydz in the Attic",
-    metaDesc:
-      "Custom CMS and storefront for a textile creator with advanced filtering, authentication, and image carousel.",
+    {
+      label: "Send us your thoughts via email",
+      short_label: "Email",
+      href: "mailto:info@fastdogcoding.com",
+      icon: "email",
+      micro_copy: "For detailed project inquiries and attachments.",
+    },
+    {
+      label: "Book 25 minutes to talk",
+      short_label: "Calendar",
+      href: "https://cal.com/grant-lindsay-7wiujq/25min",
+      icon: "calendar",
+      micro_copy: "For a focused, no-obligation discovery call.",
+    },
+    {
+      label: "Ask our Candidate Concierge",
+      short_label: "Candidate Concierge",
+      href: "https://candidate-concierge.fastdogcoding.com/",
+      icon: "ai",
+      micro_copy: "For instant answers to questions about Grant's work.",
+    },
+  ];
+
+  const ctaDefault = await createSection(
+    "cta",
+    {
+      heading: "Let's Connect",
+      subheading: "Choose the channel that works best for you.",
+      channels: CONTACT_CHANNELS,
+    },
+    "cta-default"
+  );
+
+  const ctaContact = await createSection(
+    "cta",
+    {
+      heading: "Get in Touch",
+      subheading: "Pick the method that suits you best.",
+      channels: CONTACT_CHANNELS,
+    },
+    "cta-contact"
+  );
+
+  // ════════════════════════════════════════════════════════════════
+  // 2. PAGE-SPECIFIC SECTIONS
+  // ════════════════════════════════════════════════════════════════
+
+  // ── Home Page Sections ──
+
+  const homeHero = await createSection(
+    "hero",
+    {
+      heading: "Listen carefully. Think deeply. Build deliberately.",
+      subheading:
+        "We focus on solving your problems the right way.",
+      cta_label: "Explore the Gallery",
+      cta_href: "/gallery",
+    },
+    "hero-home"
+  );
+
+  const homeGalleryGrid = await createSection(
+    "gallery_grid",
+    {
+      parent_slug: "gallery",
+      featured_limit: 3,
+    },
+    "gallery-grid-home"
+  );
+
+  // ── Gallery Page Sections ──
+
+  const galleryHero = await createSection(
+    "hero",
+    {
+      heading: "Exhibit Gallery",
+      subheading:
+        "Each showcase represents a distinct challenge and a tailored architectural solution. The common thread is our focus on performance, scalability, and measurable business impact—a curated selection of work that demonstrates technical excellence under real-world constraints.",
+    },
+    "hero-gallery"
+  );
+
+  const galleryGrid = await createSection(
+    "gallery_grid",
+    {
+      parent_slug: "gallery",
+    },
+    "gallery-grid-full"
+  );
+
+  // ── Services Page Sections ──
+
+  const servicesHero = await createSection(
+    "hero",
+    {
+      heading: "Capabilities & Engagements",
+      subheading:
+        "From applied AI and full-stack architecture to technical leadership — find the engagement model that fits your project.",
+      cta_label: "Start a Conversation",
+      cta_href: "/contact",
+    },
+    "hero-services"
+  );
+
+  const servicesProse = await createSection(
+    "prose",
+    {
+      markdown: [
+        "## Core Capabilities",
+        "",
+        "### Applied AI in Production Systems",
+        "Design and ship AI features that live inside real applications: retrieval-grounded assistants, fit and lead scoring, and workflow automation on models such as Gemini and OpenAI. Answers stay tied to your data, and the result is a system your team can operate — the same approach behind [Candidate Concierge](/gallery/candidate-concierge) and [Candidate Vantage](/gallery/candidate-vantage).",
+        "",
+        "### Full-Stack Architecture & Design",
+        "Shape a system from the data model through the interface, whether the work is greenfield or a legacy platform that still has to stay up. The aim is software that stays scalable, secure, and understandable after the engagement ends.",
+        "",
+        "### API Design & Integration",
+        "Design the APIs the rest of the product depends on — REST and GraphQL, documented and built to be integrated with — so product teams and third parties are not blocked on an unstable contract.",
+        "",
+        "### Performance Optimization & Scalability",
+        "Find the bottlenecks that show up under real load and rework the parts that will not survive enterprise traffic, aiming for high throughput and low latency without a rewrite for its own sake.",
+        "",
+        "### Technical Leadership & Team Mentorship",
+        "Embed as a senior technical lead: set the practices, review the decisions that matter, and leave the team stronger than you found it.",
+        "",
+        "---",
+        "",
+        "## Engagement Models",
+        "",
+        "### Contract Engagements",
+        "For well-defined, long-term projects requiring dedicated architectural leadership and hands-on development. We integrate directly with your team to drive technical initiatives from concept to completion.",
+        "",
+        "### Advisory & Retainer",
+        "Think fractional. For organizations needing ongoing, high-level technical guidance. This model provides consistent access for strategic planning, architectural reviews, and critical decision-making support without a full-time commitment.",
+        "",
+        "### Project-Based Scopes",
+        "For specific, outcome-oriented initiatives like a performance audit, an API design project, a proof-of-concept build, or an applied-AI pilot with a defined data set, a success measure, and a shippable slice. We'll define the scope, deliverables, and timeline to meet a precise business objective.",
+        "",
+        "### Full-Time Employment",
+        "While Fast Dog Coding operates primarily as a consultancy, we are occasionally open to direct-hire technical leadership roles. These are reserved for exceptional, remote-only opportunities—a 'unicorn' alignment of a compelling mission, great people, and a strong engineering culture.",
+      ].join("\n"),
+    },
+    "prose-services"
+  );
+
+  // ── About Page Sections ──
+
+  const aboutHero = await createSection(
+    "hero",
+    {
+      heading: "About",
+      subheading:
+        "The architect, the philosophy, and the greyhounds that started it all.",
+      cta_label: "Explore the Gallery",
+      cta_href: "/gallery",
+    },
+    "hero-about"
+  );
+
+  const aboutProse = await createSection(
+    "prose",
+    {
+      markdown: [
+        "Hello, I'm Grant Lindsay, the Principal Software Architect and founder of Fast Dog Coding. For over 15 years, I've partnered with global enterprises and ambitious startups to solve high-stakes technical challenges—specializing in cloud migrations, legacy modernization, and AI-driven automation. I build technical solutions that solve real business problems. My focus is on engineering systems that are resilient, scalable, and simple for teams to maintain.",
+        "",
+        "I take my work seriously. I don't take myself seriously.",
+        "",
+        "For credentials at a glance, [download my résumé (PDF)](/files/resume.pdf). For perspective from people I've worked with, see [testimonials](/testimonials).",
+        "",
+        "## The Origin Story",
+        "",
+        "People often ask about the name. It wasn't born in a marketing brainstorm; it was born out of international legal compliance.",
+        "",
+        "In 2014, I landed a major engagement with a fantastic Canadian firm. Because I am a U.S. resident, cross-border regulations meant they couldn't hire me as a traditional employee. To make the partnership work, I needed to stand up an LLC, and I needed a name fast.",
+        "",
+        "At the time, my wife and I had adopted three retired racing greyhounds: Rio, Wavorly, and Oriole. I wanted the company name to honor them, but using the word \"Greyhound\" felt like an open invitation for confusion with a certain bus line (\"No, ma'am, I can't book you a ticket to Cleveland, I'm an application developer\"). ",
+        "",
+        "'Fast Dog Coding' made the shortlist, the LLC registration was clear, and a business was born.",
+        "",
+        "While its legal origin is purely practical, the metaphor holds perfectly. Greyhounds pivot between two extremes: explosive athletes on the track, and absolute couch potatoes at home. They excel at conserving energy.",
+        "",
+        "Great software architecture mirrors this dichotomy. The application sprints under peak enterprise loads, while daily maintenance brings zero drama. Intelligently directed computational force on the server unleashes your team to drive high-impact features.",
+        "",
+        "## My Philosophy",
+        "",
+        "My approach is simple: listen carefully, think deeply, and build deliberately. I believe the best solutions emerge from a clear understanding of the business problem, not a blind attachment to a trendy framework. I function as a true partner, smoothly embedding with teams to provide technical leadership and mentorship that elevates everyone involved.",
+        "",
+        "When I'm not 'swapping engines mid-flight' on legacy servers, you can usually find me walking to clear my mind, playing low-stress video games, or traveling to discover local foods and meet new people. ",
+        "",
+        "I also have a deep fascination with languages. I can understand French (si vous parlez plus lentement) and am currently tackling the challenge of learning Japanese (よろしくお願いします).",
+        "",
+        "---",
+        "",
+        "Which reminds me, why do programmers prefer dark mode?",
+        "",
+        "Because light attracts bugs.",
+      ].join("\n"),
+    },
+    "prose-about"
+  );
+
+  // ── Contact Page Sections ──
+
+  const contactHero = await createSection(
+    "hero",
+    {
+      heading: "Start a Conversation",
+      subheading:
+        "Choose the channel that works best for you. We're ready to discuss your next technical challenge and explore how we can contribute to your success.",
+    },
+    "hero-contact"
+  );
+
+  // ── Testimonials Page Sections ──
+
+  const testimonialsHero = await createSection(
+    "hero",
+    {
+      heading: "Testimonials",
+      subheading: "What clients and colleagues have to say.",
+    },
+    "hero-testimonials"
+  );
+
+  // ── Legal & Privacy Prose ──
+
+  const legalProse = await createSection(
+    "prose",
+    {
+      markdown: [
+        "# Legal Information",
+        "",
+        "## Terms of Use",
+        'This website is operated by Fast Dog Coding, LLC. The content on this website is provided for informational and demonstrative purposes only.',
+        "",
+        "## Disclaimer",
+        'The materials on this website are provided "as is". Fast Dog Coding, LLC makes no warranties, expressed or implied, and hereby disclaims all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.',
+        "",
+        "## Intellectual Property",
+        "Unless otherwise noted, all content, design, and intellectual property on this site is owned by Fast Dog Coding, LLC. You may not reproduce or use this content without explicit permission.",
+      ].join("\n"),
+    },
+    "prose-legal"
+  );
+
+  const privacyProse = await createSection(
+    "prose",
+    {
+      markdown: [
+        "# Privacy Policy",
+        "",
+        "*Last updated: May 28, 2026*",
+        "",
+        "## Data Collection",
+        "",
+        "Fast Dog Coding, LLC respects your privacy. This portfolio site does not use contact forms or account registration. We do not sell your personal information.",
+        "",
+        "## Server Logs",
+        "",
+        "Our hosting provider maintains standard web server logs (such as IP address, browser type, and pages requested) to operate and secure the site. We do not use analytics tools or cookies on this website.",
+        "",
+        "## Candidate Concierge",
+        "",
+        "The [Candidate Concierge](https://candidate-concierge.fastdogcoding.com/) chat (linked from our Contact page) is a separate service. How it collects, uses, and retains information is described in the [Candidate Concierge Privacy Policy](https://candidate-concierge.fastdogcoding.com/privacy). This portfolio site does not process Concierge chat data.",
+        "",
+        "## Third-Party Services",
+        "",
+        "Links on this site (for example, scheduling, email, LinkedIn, or the Candidate Concierge) are operated by third parties with their own privacy practices.",
+        "",
+        "## Contacting Us",
+        "",
+        "If you have questions about this Privacy Policy, contact us using the information on [the Contact page](/contact).",
+      ].join("\n"),
+    },
+    "prose-privacy"
+  );
+
+  // ════════════════════════════════════════════════════════════════
+  // 3. PAGES (routing shells only)
+  // ════════════════════════════════════════════════════════════════
+
+  const home = await prisma.page.create({
     data: {
-      title: "CMS and Storefront",
-      client: "Lydz in the Attic (LITA)",
-      role: "Full-Stack Developer / Architect",
-      lede: "We engineered a custom CMS and storefront for a textile creator, featuring advanced filtering, secure authentication, and a high-performance image carousel.",
-      challenge:
-        "A small creative business needed a storefront that could showcase visual inventory richly while remaining easy for a non-technical owner to manage day to day.",
-      approach:
-        "We architected and built a full-stack solution with Node.js and Express, IBM Cloudant for flexible content storage, and an Angular TypeScript front end tuned for catalog browsing and merchandising workflows.",
-      impact:
-        "A tailored commerce experience that matched the brand's aesthetic and operational needs without off-the-shelf platform compromises.",
-      tech_stack: [
-        "Node.js",
-        "Express",
-        "IBM Cloudant",
-        "Angular",
-        "TypeScript",
-      ],
+      slug: "home",
+      title: "Fast Dog Coding — Principal-Level Architecture",
+      metaDesc:
+        "Fast Dog Coding delivers principal-level software architecture and development for enterprise systems. Explore showcases of robust, scalable solutions built for impact.",
+      isPublished: true,
+      isNav: false,
+      sortOrder: 0,
     },
-  },
-  {
-    exhibitSlug: "exhibit-resume-app",
-    pageSlug: "resume-app",
-    sortOrder: 7,
-    pageTitle: "Resume App — Interactive Data-Driven Resume",
-    metaDesc:
-      "An interactive resume that both tells and shows career history—always current at a single URL and serving as a live skills demonstration.",
+  });
+
+  const gallery = await prisma.page.create({
     data: {
-      title: "Resume App",
-      client: "Fast Dog Coding, LLC (Internal)",
-      role: "Principal Architect / Sole Proprietor",
-      lede: "We built an interactive, data-driven resume that both tells and shows career history—always current at a single URL and serving as a live skills demonstration.",
-      challenge:
-        "Proprietary client work cannot be shown publicly; needed a demonstration application that proves skills while delivering a resume above the ordinary printed variety.",
-      approach:
-        "We merged resume and demo app into one Express application with Handlebars views, IBM Cloudant for structured career data, and D3.js visualizations—deployed on IBM Cloud Foundry. Open-sourced on GitHub for pre-interview technical review.",
-      impact:
-        "Always-up-to-date resume link that never goes stale; saves interviewers time with inspectable source code; foundation for future dynamic Word export from the same data source.",
-      tech_stack: [
-        "Node.js",
-        "Express",
-        "Handlebars",
-        "IBM Cloudant",
-        "D3.js",
-        "IBM Cloud Foundry",
-      ],
+      slug: "gallery",
+      title: "Showcases",
+      metaDesc:
+        "Explore a curated gallery of enterprise-level software architecture and development projects by Fast Dog Coding, showcasing technical solutions and business impact.",
+      isPublished: true,
+      isNav: true,
+      navLabel: "Gallery",
+      sortOrder: 1,
     },
-  },
-  {
-    exhibitSlug: "exhibit-dlg",
-    pageSlug: "digital-learning-guide",
-    sortOrder: 8,
-    pageTitle: "Digital Learning Guide — Global Learning Ecosystem",
-    metaDesc:
-      "Multi-year evolution of a global learning ecosystem serving IBM's worldwide workforce.",
-    testimonialSlug: "testimonial-jenn",
+  });
+
+  const services = await prisma.page.create({
     data: {
-      title: "Digital Learning Guide",
-      client: "REDspace, Inc. (for IBM)",
-      role: "Principal Developer",
-      lede: "We led a multi-year evolution of a global learning ecosystem, including automated data sync and a comprehensive reviewer dashboard.",
-      challenge:
-        "IBM's global learning platform needed continuous evolution to serve a worldwide workforce with reliable content delivery, automated synchronization across backends, and a robust editorial workflow for reviewers.",
-      approach:
-        "Over a sustained engagement we led technical evolution—designing a Worker Queue for automated data sync, building a comprehensive reviewer dashboard, and modernizing toward Node.js, Express, and Angular on IBM Cloudant and IBM Cloud.",
-      impact:
-        "A durable piece of IBM's global learning infrastructure, demonstrating the value of sustained architectural investment at enterprise scale.",
-      tech_stack: [
-        "Node.js",
-        "Express",
-        "IBM Cloudant",
-        "IBM Cloud",
-        "Angular",
-        "TypeScript",
-      ],
+      slug: "services",
+      title: "Capabilities & Engagements",
+      metaDesc:
+        "Discover the full range of services, from full-stack architecture to technical leadership, and find the flexible engagement model that fits your project needs.",
+      isPublished: true,
+      isNav: true,
+      navLabel: "Services",
+      sortOrder: 2,
     },
-  },
-  {
-    exhibitSlug: "exhibit-compliance-attender",
-    pageSlug: "compliance-attender",
-    sortOrder: 9,
-    pageTitle: "Compliance Attender — Real-Time DLP on Domino",
-    metaDesc:
-      "C++ server add-in for real-time email interception and data-leakage prevention on IBM Domino.",
+  });
+
+  const about = await prisma.page.create({
     data: {
-      title: "Compliance Attender",
-      client: "Sherpa Software",
-      role: "Senior Product Developer",
-      lede: "Engineered a C++ server add-in for real-time email interception and data-leakage prevention (DLP) on IBM Domino.",
-      challenge:
-        "Organizations needed to enforce data-leakage policies at the mail server boundary—intercepting sensitive content in flight without degrading messaging performance or reliability.",
-      approach:
-        "Developed a C++ Domino server add-in using the IBM Domino C API and real-time messaging hooks to inspect and act on email traffic as it moved through the infrastructure.",
-      impact:
-        "Production-grade DLP capability integrated directly into the messaging path customers already trusted.",
-      tech_stack: ["C++", "IBM Domino C API", "Real-time Messaging"],
+      slug: "about",
+      title: "About",
+      metaDesc:
+        "Meet the architect behind Fast Dog Coding. Learn about the philosophy, the process, and the greyhounds that inspired it all.",
+      isPublished: true,
+      isNav: true,
+      navLabel: "About",
+      sortOrder: 3,
     },
-  },
-  {
-    exhibitSlug: "exhibit-phoenix",
-    pageSlug: "phoenix",
-    sortOrder: 10,
-    pageTitle: "Phoenix — Investment Lifecycle Management",
-    metaDesc:
-      "Venture capital intake and tracking from initial solicitation through follow-on funding with compliance reporting.",
+  });
+
+  const contact = await prisma.page.create({
     data: {
-      title: "Phoenix",
-      client: "Innovation Works, Inc.",
-      role: "Senior Product Developer",
-      lede: "Built comprehensive intake and tracking for venture capital investment opportunities across the full funding lifecycle.",
-      challenge:
-        "Seed-stage investment programs required rigorous tracking from first solicitation through multiple funding rounds, with reporting that satisfied state-level compliance and audit requirements.",
-      approach:
-        "Engineered the application on IBM Notes and Domino with LotusScript, including mission-critical reporting modules aligned to regulatory obligations for seed-stage investments.",
-      impact:
-        "A dependable system of record for opportunity flow, follow-on rounds, and mandated compliance outputs.",
-      tech_stack: ["IBM Notes & Domino", "LotusScript"],
+      slug: "contact",
+      title: "Start a Conversation",
+      metaDesc:
+        "Start a conversation with Fast Dog Coding. Connect via LinkedIn, email, book a call, or chat with the Candidate Concierge to discuss your next technical challenge.",
+      isPublished: true,
+      isNav: true,
+      navLabel: "Contact",
+      sortOrder: 4,
     },
-  },
-  {
-    exhibitSlug: "exhibit-exposure-monitoring",
-    pageSlug: "exposure-monitoring",
-    sortOrder: 11,
-    pageTitle: "Exposure Monitoring System — Industrial Hygiene",
-    metaDesc:
-      "Data management for industrial hygienists tracking workforce exposure and OSHA compliance.",
+  });
+
+  const testimonials = await prisma.page.create({
     data: {
-      title: "Exposure Monitoring System",
-      client: "CISCorp (for Bayer, Inc.)",
-      role: "Senior Product Developer",
-      lede: "Built specialized data management for industrial hygienists monitoring workforce exposure to hazardous chemicals, noise, and radiation.",
-      challenge:
-        "Industrial hygiene teams needed to correlate field samples, personnel, locations, and laboratory results to support mandatory OSHA compliance reporting.",
-      approach:
-        "Architected a Domino-based application that streamlined end-to-end tracking of sampling events and outcomes, giving hygienists a single system for exposure records and audit trails.",
-      impact:
-        "More reliable exposure documentation and faster path to compliance-ready reporting.",
-      tech_stack: ["IBM Notes & Domino", "LotusScript"],
+      slug: "testimonials",
+      title: "Testimonials",
+      metaDesc:
+        "What clients and colleagues say about working with Fast Dog Coding.",
+      isPublished: true,
+      isNav: false,
+      sortOrder: 0,
     },
-  },
-  {
-    exhibitSlug: "exhibit-buzzzone",
-    pageSlug: "buzzzone",
-    sortOrder: 12,
-    pageTitle: "BuzzZone — Bilingual Enterprise Intranet",
-    metaDesc:
-      "Company-wide bilingual intranet launched in ten weeks for branch employees moving off green-screen terminals.",
+  });
+
+  const legal = await prisma.page.create({
     data: {
-      title: "BuzzZone",
-      client: "Zurich Insurance (Canada)",
-      role: "Principal Developer",
-      lede: "Engineered and launched a bilingual (English/French) company-wide intranet within a strict ten-week deadline.",
-      challenge:
-        "Branch employees transitioning from green-screen terminals needed a modern intranet experience—bilingual, editor-friendly, and deliverable on an immovable go-live date.",
-      approach:
-        "Built a split-screen translation interface for Notes client editors and leveraged Domino HTTP capabilities to serve web content at scale, coordinating delivery across language and platform constraints.",
-      impact:
-        "Successful launch on schedule, giving the organization a credible intranet foundation during a major workplace technology shift.",
-      tech_stack: ["IBM Notes & Domino 4.6", "Legacy Web Development"],
+      slug: "legal",
+      title: "Legal Information",
+      metaDesc: "Legal information and terms of use for Fast Dog Coding.",
+      isPublished: true,
+      isNav: false,
+      sortOrder: 0,
     },
-  },
-];
+  });
+
+  const privacy = await prisma.page.create({
+    data: {
+      slug: "privacy",
+      title: "Privacy Policy",
+      metaDesc: "Privacy policy for Fast Dog Coding.",
+      isPublished: true,
+      isNav: false,
+      sortOrder: 0,
+    },
+  });
+
+  // ════════════════════════════════════════════════════════════════
+  // 4. WIRE SECTIONS → PAGES (via page_sections join table)
+  // ════════════════════════════════════════════════════════════════
+
+  // ── Home ──
+  await placeSection(home.id, homeHero.id, 0);
+  await placeSection(home.id, homeGalleryGrid.id, 1);
+  // sortOrder 2 is reserved for the compact testimonial-andrew placement written by resume sync.
+  await placeSection(home.id, ctaDefault.id, 3);
+
+  // ── Gallery ──
+  await placeSection(gallery.id, galleryHero.id, 0);
+  await placeSection(gallery.id, galleryGrid.id, 1);
+
+  // ── Services ──
+  await placeSection(services.id, servicesHero.id, 0);
+  await placeSection(services.id, servicesProse.id, 1);
+  await placeSection(services.id, ctaDefault.id, 2);
+
+  // ── About ──
+  await placeSection(about.id, aboutHero.id, 0);
+  await placeSection(about.id, aboutProse.id, 1);
+  await placeSection(about.id, ctaDefault.id, 2);
+
+  // ── Contact ──
+  await placeSection(contact.id, contactHero.id, 0);
+  await placeSection(contact.id, ctaContact.id, 1);
+
+  // ── Testimonials ──
+  await placeSection(testimonials.id, testimonialsHero.id, 0);
+
+  // ── Legal ──
+  await placeSection(legal.id, legalProse.id, 0);
+
+  // ── Privacy ──
+  await placeSection(privacy.id, privacyProse.id, 0);
+}
