@@ -31,6 +31,8 @@
     "build": "sh scripts/vercel-build.sh",
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
+    "sync:db": "tsx scripts/sync-resume.ts",
+    "revalidate": "tsx scripts/revalidate.ts",
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
@@ -39,6 +41,7 @@
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
+    "@fastdogcoding/resume-master": "file:./packages/resume-master",
     "@as-integrations/next": "^4.1.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
