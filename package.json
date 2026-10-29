@@ -1,6 +1,6 @@
 {
   "name": "fdc-website",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Fast Dog Coding portfolio site — a server-driven UI showcase built with Next.js, GraphQL, and Prisma.",
   "keywords": [
     "fast-dog-coding",
