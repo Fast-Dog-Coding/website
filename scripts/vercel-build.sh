@@ -19,7 +19,14 @@ if [ -z "${DATABASE_URL}" ]; then
   exit 1
 fi
 
-npx prisma db push
+# Quaint (Prisma schema engine 7.8.0) only understands sslmode
+# disable/prefer/require — verify-full is treated as prefer — and it accepts
+# invalid certificates unless sslaccept=strict. pg is not used for db push.
+# Keep sslmode=require and require a verified certificate. Scoped to this
+# command: prisma db seed uses pgPoolConfig, which rewrites sslmode to
+# verify-full for node-postgres and does not need sslaccept.
+PRISMA_DB_PUSH_URL="$(npx tsx scripts/print-prisma-db-push-url.ts)"
+DATABASE_URL="$PRISMA_DB_PUSH_URL" npx prisma db push
 
 if [ -n "${SEED_DATABASE:-}" ]; then
   echo "SEED_DATABASE is set — running prisma db seed (one-time bootstrap)."

@@ -16,12 +16,13 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 import { getResume } from "@fastdogcoding/resume-master";
+import { pgPoolConfig } from "../src/lib/pg-config";
 import { syncResume } from "../src/lib/sync-resume";
 import { seedStaticSite } from "./seed-content";
 
 const connectionString =
   process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
+const pool = new Pool(pgPoolConfig(connectionString));
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
