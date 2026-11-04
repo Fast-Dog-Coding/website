@@ -7,7 +7,7 @@
  */
 
 import type { Prisma, PrismaClient } from "@prisma/client";
-import type { ProjectedResume } from "@fastdogcoding/resume-master";
+import type { PortfolioResume } from "@fastdogcoding/resume-master";
 import type { ExhibitData, TestimonialData } from "@/types";
 import {
   mapExhibits,
@@ -86,7 +86,7 @@ async function upsertSection(
 
 export async function syncResume(
   prisma: PrismaClient,
-  projection: ProjectedResume
+  projection: PortfolioResume
 ): Promise<SyncResumeResult> {
   const home = await requirePage(prisma, "home");
   const testimonialsPage = await requirePage(prisma, "testimonials");

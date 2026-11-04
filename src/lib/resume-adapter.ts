@@ -6,10 +6,10 @@
  */
 
 import type {
-  ProjectEntry,
-  ProjectedResume,
-  ReferenceEntry,
-  WorkEntry,
+  PortfolioProject,
+  PortfolioReference,
+  PortfolioResume,
+  PortfolioWork,
 } from "@fastdogcoding/resume-master";
 import type { ExhibitData, TestimonialData } from "@/types";
 
@@ -247,7 +247,7 @@ export function normalizeReferenceTitle(title: string): {
   };
 }
 
-export function projectToExhibitData(project: ProjectEntry): ExhibitData {
+export function projectToExhibitData(project: PortfolioProject): ExhibitData {
   return {
     title: project.name,
     client: project.entity ?? "",
@@ -261,8 +261,8 @@ export function projectToExhibitData(project: ProjectEntry): ExhibitData {
 }
 
 export function resolveTestimonialCompany(
-  reference: ReferenceEntry,
-  work: readonly WorkEntry[] = []
+  reference: PortfolioReference,
+  work: readonly PortfolioWork[] = []
 ): string {
   if (reference.workId) {
     const match = work.find((entry) => entry.id === reference.workId);
@@ -274,7 +274,7 @@ export function resolveTestimonialCompany(
   return "";
 }
 
-export function resolveTestimonialRole(reference: ReferenceEntry): string {
+export function resolveTestimonialRole(reference: PortfolioReference): string {
   const presentation = testimonialByName.get(reference.name);
   if (presentation) return presentation.role;
   if (reference.title) return normalizeReferenceTitle(reference.title).role;
@@ -282,8 +282,8 @@ export function resolveTestimonialRole(reference: ReferenceEntry): string {
 }
 
 export function referenceToTestimonialData(
-  reference: ReferenceEntry,
-  work: readonly WorkEntry[] = []
+  reference: PortfolioReference,
+  work: readonly PortfolioWork[] = []
 ): TestimonialData {
   return {
     name: reference.name,
@@ -304,7 +304,7 @@ export interface MappedTestimonial {
   data: TestimonialData;
 }
 
-export function mapExhibits(projection: ProjectedResume): MappedExhibit[] {
+export function mapExhibits(projection: PortfolioResume): MappedExhibit[] {
   const mapped: MappedExhibit[] = [];
   for (const project of projection.projects ?? []) {
     if (!project?.id) continue;
@@ -320,7 +320,7 @@ export function mapExhibits(projection: ProjectedResume): MappedExhibit[] {
 }
 
 export function mapTestimonials(
-  projection: ProjectedResume
+  projection: PortfolioResume
 ): MappedTestimonial[] {
   const work = projection.work ?? [];
   const mapped: MappedTestimonial[] = [];
