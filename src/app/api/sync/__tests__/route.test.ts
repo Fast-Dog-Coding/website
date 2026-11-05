@@ -48,6 +48,8 @@ describe("POST /api/sync", () => {
     mockSyncResume.mockResolvedValue({
       exhibits: ["exhibit-portfolio-website"],
       testimonials: ["testimonial-andrew"],
+      retired: [],
+      dryRun: false,
     });
   });
 
@@ -96,16 +98,60 @@ describe("POST /api/sync", () => {
     expect(mockGetResume).toHaveBeenCalledWith("resume-key");
     expect(mockSyncResume).toHaveBeenCalledWith(
       { tag: "prisma-singleton" },
-      { projects: [], references: [] }
+      { projects: [], references: [] },
+      { dryRun: false }
     );
     expect(mockRevalidatePath).toHaveBeenCalledWith("/", "layout");
+    expect(mockRevalidatePath).toHaveBeenCalledWith("/sitemap.xml");
     expect(body).toMatchObject({
       synced: true,
+      dryRun: false,
       exhibits: ["exhibit-portfolio-website"],
       testimonials: ["testimonial-andrew"],
+      retired: [],
       revalidated: true,
     });
     expect(body.timestamp).toEqual(expect.any(String));
+  });
+
+  it("dry run reports retirements without writing or revalidating", async () => {
+    mockSyncResume.mockResolvedValue({
+      exhibits: ["exhibit-homesalesone"],
+      testimonials: [],
+      retired: [
+        {
+          id: "page-phoenix",
+          slug: "phoenix",
+          title: "Phoenix — Investment Lifecycle Management",
+          projectId: "phoenix",
+          exhibitSlug: "exhibit-phoenix",
+          path: "/gallery/phoenix",
+        },
+      ],
+      dryRun: true,
+    });
+
+    const response = await POST(
+      new NextRequest("http://localhost/api/sync?dryRun=true", {
+        method: "POST",
+        headers: { authorization: "Bearer test-secret" },
+      })
+    );
+
+    expect(response.status).toBe(200);
+    expect(mockSyncResume).toHaveBeenCalledWith(
+      { tag: "prisma-singleton" },
+      { projects: [], references: [] },
+      { dryRun: true }
+    );
+    expect(mockRevalidatePath).not.toHaveBeenCalled();
+    await expect(response.json()).resolves.toMatchObject({
+      synced: false,
+      dryRun: true,
+      revalidated: false,
+      exhibits: ["exhibit-homesalesone"],
+      retired: [{ slug: "phoenix", path: "/gallery/phoenix" }],
+    });
   });
 
   it("does not revalidate or echo the API key when the sync fails", async () => {

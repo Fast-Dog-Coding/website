@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
+import { HOME_HERO, HOME_HERO_HEADING_TEXT } from "@/lib/site-copy";
 
-export const alt = "Fast Dog Coding — Principal-Level Architecture";
+export const alt = `Fast Dog Coding — ${HOME_HERO_HEADING_TEXT}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -53,12 +54,12 @@ export default function OpenGraphImage() {
           </div>
 
           {/* Headline */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 720 }}>
-            <div style={{ fontSize: 52, fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.02em" }}>
-              Principal-Level Architecture.
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 760 }}>
+            <div style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.2, letterSpacing: "-0.02em" }}>
+              {HOME_HERO.heading}
             </div>
-            <div style={{ fontSize: 36, fontWeight: 600, color: "#A3A3A3", lineHeight: 1.2 }}>
-              Enterprise-Grade Execution.
+            <div style={{ fontSize: 28, fontWeight: 600, color: "#A3A3A3", lineHeight: 1.3 }}>
+              {HOME_HERO.subheading}
             </div>
           </div>
 
