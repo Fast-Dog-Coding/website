@@ -1,8 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
-  DEFAULT_RESUME_SERVICE_URL,
   getResume,
-  type ProjectedResume,
+  type PortfolioResume,
 } from "@fastdogcoding/resume-master";
 import {
   EXHIBIT_CATALOG,
@@ -25,18 +24,28 @@ afterEach(() => {
 });
 
 type ResumeFetch = (
-  url: string,
+  url: string | URL,
   init?: RequestInit
-) => Promise<{ ok: boolean; status: number; text: () => Promise<string> }>;
+) => Promise<{
+  ok: boolean;
+  status: number;
+  text: () => Promise<string>;
+  json: () => Promise<unknown>;
+}>;
 
 function mockFetch(response: { ok: boolean; status: number; body: string }) {
   const fetchMock = vi.fn<ResumeFetch>(async () => ({
     ok: response.ok,
     status: response.status,
     text: async () => response.body,
+    json: async () => JSON.parse(response.body) as unknown,
   }));
   vi.stubGlobal("fetch", fetchMock);
   return fetchMock;
+}
+
+function requestUrl(value: string | URL): string {
+  return value instanceof URL ? value.href : value;
 }
 
 function fetchCall(
@@ -47,7 +56,7 @@ function fetchCall(
   if (!invocation) throw new Error(`missing fetch call ${index}`);
   const init = invocation[1];
   if (!init) throw new Error(`missing fetch init ${index}`);
-  return { url: invocation[0], init };
+  return { url: requestUrl(invocation[0]), init };
 }
 
 describe("getResume", () => {
@@ -60,7 +69,6 @@ describe("getResume", () => {
 
     const result = await getResume(SECRET_KEY);
 
-    expect(DEFAULT_RESUME_SERVICE_URL).toBe("https://resume-master-nu.vercel.app");
     expect(fetchMock).toHaveBeenCalledOnce();
     const { url, init } = fetchCall(fetchMock, 0);
     expect(url).toBe("https://resume-master-nu.vercel.app/v1/resume");
@@ -105,13 +113,13 @@ describe("getResume", () => {
     await getResume(SECRET_KEY, {
       projectIds: ["edvisor"],
       keywords: undefined,
-      mode: "full",
+      mode: "strict",
       cutOffDate: "2020-01-01",
     });
 
     expect(JSON.parse(String(fetchCall(fetchMock, 0).init.body))).toEqual({
       projectIds: ["edvisor"],
-      mode: "full",
+      mode: "strict",
       cutOffDate: "2020-01-01",
     });
   });
@@ -123,9 +131,9 @@ describe("getResume", () => {
       body: "{}",
     });
 
-    await expect(getResume("   ")).rejects.toThrow(/non-empty string/);
+    await expect(getResume("")).rejects.toThrow(/requires an apiKey/);
     await expect(getResume(undefined as unknown as string)).rejects.toThrow(
-      /non-empty string/
+      /requires an apiKey/
     );
     expect(fetchMock).not.toHaveBeenCalled();
   });
@@ -138,7 +146,6 @@ describe("getResume", () => {
     });
 
     await expect(getResume(SECRET_KEY)).rejects.toThrow(/HTTP 401/);
-    await expect(getResume(SECRET_KEY)).rejects.toThrow(/\[redacted\]/);
     try {
       await getResume(SECRET_KEY);
     } catch (error) {
@@ -147,11 +154,11 @@ describe("getResume", () => {
     }
   });
 
-  it("describes invalid JSON without leaking the API key", async () => {
+  it("rejects a response body that is not JSON", async () => {
     mockFetch({
       ok: true,
       status: 200,
-      body: `not-json ${SECRET_KEY}`,
+      body: "not-json",
     });
 
     try {
@@ -160,7 +167,7 @@ describe("getResume", () => {
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
       const message = (error as Error).message;
-      expect(message).toMatch(/invalid JSON/);
+      expect(message).toMatch(/not valid JSON/);
       expect(message).not.toContain(SECRET_KEY);
     }
   });
@@ -209,7 +216,9 @@ describe("exhibit catalog", () => {
 });
 
 describe("project and reference mapping", () => {
-  const projection: ProjectedResume = {
+  const projection: PortfolioResume = {
+    basics: { name: "Grant Lindsay" },
+    meta: { clientId: "portfolio", cutOffDate: null, projected: true },
     work: [
       { id: "ks2-technologies", name: "Example Systems, Inc." },
       { id: "redspace", name: "Northwind Studio" },

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { PrismaClient } from "@prisma/client";
-import type { ProjectedResume } from "@fastdogcoding/resume-master";
+import type { PortfolioResume } from "@fastdogcoding/resume-master";
 import { syncResume } from "@/lib/sync-resume";
 
 interface Row {
@@ -120,7 +120,9 @@ function createFakePrisma() {
   return { prisma: prisma as unknown as PrismaClient, pages, sections, placements, deleted };
 }
 
-const projection: ProjectedResume = {
+const projection: PortfolioResume = {
+  basics: { name: "Grant Lindsay" },
+  meta: { clientId: "portfolio", cutOffDate: null, projected: true },
   work: [
     { id: "ks2-technologies", name: "Example Systems, Inc." },
     { id: "redspace", name: "Northwind Studio" },
