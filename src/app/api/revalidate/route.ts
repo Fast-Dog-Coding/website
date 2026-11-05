@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
 
   try {
     revalidatePath("/", "layout");
+    revalidatePath("/sitemap.xml");
     return Response.json({
       revalidated: true,
       timestamp: new Date().toISOString(),

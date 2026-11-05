@@ -3,10 +3,17 @@
  *
  * Authorization matches POST /api/revalidate (Bearer REVALIDATION_SECRET).
  * Fetches the portfolio projection from resume-master, upserts exhibits and
- * testimonials in Neon, then purges the ISR cache.
+ * testimonials in Neon, unpublishes catalog gallery pages that left the
+ * projection, then purges the ISR cache.
  *
  *   POST /api/sync
  *   Authorization: Bearer <REVALIDATION_SECRET>
+ *
+ *   POST /api/sync?dryRun=true
+ *   Authorization: Bearer <REVALIDATION_SECRET>
+ *
+ * dryRun=true (or dryRun=1) reports exhibits, testimonials, and gallery
+ * pages that would be unpublished, and does not write or revalidate.
  */
 
 import { revalidatePath } from "next/cache";
@@ -21,6 +28,13 @@ function resumeApiKey(): string | undefined {
   if (typeof key !== "string") return undefined;
   const trimmed = key.trim();
   return trimmed === "" ? undefined : trimmed;
+}
+
+function readDryRun(request: NextRequest): boolean {
+  const value = request.nextUrl.searchParams.get("dryRun");
+  if (value === null) return false;
+  const normalized = value.trim().toLowerCase();
+  return normalized === "1" || normalized === "true";
 }
 
 function redact(message: string, secrets: Array<string | undefined>): string {
@@ -46,13 +60,19 @@ export async function POST(request: NextRequest) {
 
   try {
     const projection = await getResume(apiKey);
-    const result = await syncResume(prisma, projection);
-    revalidatePath("/", "layout");
+    const dryRun = readDryRun(request);
+    const result = await syncResume(prisma, projection, { dryRun });
+    if (!dryRun) {
+      revalidatePath("/", "layout");
+      revalidatePath("/sitemap.xml");
+    }
     return Response.json({
-      synced: true,
+      synced: !dryRun,
+      dryRun,
       exhibits: result.exhibits,
       testimonials: result.testimonials,
-      revalidated: true,
+      retired: result.retired,
+      revalidated: !dryRun,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

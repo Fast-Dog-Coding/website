@@ -48,8 +48,12 @@ async function main() {
     console.log("↻ Syncing exhibits and testimonials from resume-master...");
     const projection = await getResume(apiKey);
     const result = await syncResume(prisma, projection);
+    const retiredNote =
+      result.retired.length > 0
+        ? `; unpublished ${result.retired.length} stale gallery exhibit${result.retired.length === 1 ? "" : "s"}`
+        : "";
     console.log(
-      `   ↳ synced ${result.exhibits.length} exhibits and ${result.testimonials.length} testimonials`
+      `   ↳ synced ${result.exhibits.length} exhibits and ${result.testimonials.length} testimonials${retiredNote}`
     );
   } else {
     console.log(

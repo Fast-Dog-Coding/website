@@ -3,9 +3,14 @@
  *
  *   npm run sync:db
  *   npm run sync:db -- --no-revalidate
+ *   npm run sync:db -- --dry-run
+ *
+ * Catalog gallery pages whose project is absent from the projection are
+ * unpublished (the row is kept). --dry-run prints the upsert and unpublish
+ * sets and writes nothing, including no ISR revalidation.
  *
  * Revalidation runs afterward when REVALIDATION_SECRET is set, unless
- * --no-revalidate is passed.
+ * --no-revalidate or --dry-run is passed.
  */
 
 import "dotenv/config";
@@ -28,7 +33,8 @@ function readApiKey(): string {
 }
 
 async function main() {
-  const skipRevalidate = process.argv.includes("--no-revalidate");
+  const dryRun = process.argv.includes("--dry-run");
+  const skipRevalidate = dryRun || process.argv.includes("--no-revalidate");
   const apiKey = readApiKey();
   const connectionString =
     process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
@@ -41,22 +47,35 @@ async function main() {
   const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
   try {
-    const result = await syncResume(prisma, projection);
+    const result = await syncResume(prisma, projection, { dryRun });
     const exhibitSummary = result.exhibits.join(", ") || "(none)";
     const testimonialSummary = result.testimonials.join(", ") || "(none)";
+    const retiredSummary = result.retired.map((entry) => entry.slug).join(", ") || "(none)";
+    const wrote = dryRun ? "Would upsert" : "Upserted";
+    const retiredVerb = dryRun ? "Would unpublish" : "Unpublished";
     console.log(
-      `Upserted ${result.exhibits.length} exhibit${result.exhibits.length === 1 ? "" : "s"}: ${exhibitSummary}`
+      `${wrote} ${result.exhibits.length} exhibit${result.exhibits.length === 1 ? "" : "s"}: ${exhibitSummary}`
     );
     console.log(
-      `Upserted ${result.testimonials.length} testimonial${result.testimonials.length === 1 ? "" : "s"}: ${testimonialSummary}`
+      `${wrote} ${result.testimonials.length} testimonial${result.testimonials.length === 1 ? "" : "s"}: ${testimonialSummary}`
     );
+    console.log(
+      `${retiredVerb} ${result.retired.length} gallery exhibit${result.retired.length === 1 ? "" : "s"}: ${retiredSummary}`
+    );
+    if (dryRun) {
+      console.log("Dry run: no rows written.");
+    }
   } finally {
     await prisma.$disconnect();
     await pool.end();
   }
 
   if (skipRevalidate) {
-    console.log("Skipping ISR revalidation (--no-revalidate).");
+    console.log(
+      dryRun
+        ? "Skipping ISR revalidation (--dry-run)."
+        : "Skipping ISR revalidation (--no-revalidate)."
+    );
     return;
   }
   if (!process.env.REVALIDATION_SECRET) {

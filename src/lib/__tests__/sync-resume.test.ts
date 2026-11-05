@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { PrismaClient } from "@prisma/client";
 import type { PortfolioResume } from "@fastdogcoding/resume-master";
 import { syncResume } from "@/lib/sync-resume";
@@ -13,6 +13,7 @@ function createFakePrisma() {
   const sections = new Map<string, Row>();
   const placements: Row[] = [];
   const deleted: string[] = [];
+  const updates: Array<{ id: string; isPublished?: boolean }> = [];
 
   function refuseDelete(label: string) {
     return () => {
@@ -66,6 +67,36 @@ function createFakePrisma() {
         return created;
       },
       deleteMany: refuseDelete("pages"),
+      findMany: async ({
+        where,
+      }: {
+        where?: { parentSlug?: string };
+      }) =>
+        [...pages.values()].filter((page) => {
+          if (
+            where?.parentSlug !== undefined &&
+            page.parentSlug !== where.parentSlug
+          ) {
+            return false;
+          }
+          return true;
+        }),
+      update: async ({
+        where,
+        data,
+      }: {
+        where: { id: string };
+        data: { isPublished?: boolean };
+      }) => {
+        const existing = [...pages.values()].find((page) => page.id === where.id);
+        if (!existing) {
+          throw new Error(`missing page ${where.id}`);
+        }
+        const next = { ...existing, ...data };
+        pages.set(String(existing.slug), next);
+        updates.push({ id: where.id, isPublished: data.isPublished });
+        return next;
+      },
     },
     section: {
       findUnique: async ({ where }: { where: { slug: string } }) =>
@@ -117,7 +148,14 @@ function createFakePrisma() {
     },
   };
 
-  return { prisma: prisma as unknown as PrismaClient, pages, sections, placements, deleted };
+  return {
+    prisma: prisma as unknown as PrismaClient,
+    pages,
+    sections,
+    placements,
+    deleted,
+    updates,
+  };
 }
 
 const projection: PortfolioResume = {
@@ -240,5 +278,175 @@ describe("syncResume", () => {
     fake.pages.delete("gallery");
     await expect(syncResume(fake.prisma, projection)).rejects.toThrow(/gallery/);
     expect(fake.sections.has("exhibit-homesalesone")).toBe(false);
+  });
+
+  it("unpublishes a catalog gallery page missing from the projection and leaves static pages", async () => {
+    const fake = createFakePrisma();
+    fake.pages.set("phoenix", {
+      id: "page-phoenix",
+      slug: "phoenix",
+      parentSlug: "gallery",
+      title: "Phoenix — Investment Lifecycle Management",
+      isPublished: true,
+      isNav: false,
+    });
+    fake.pages.set("hand-built", {
+      id: "page-hand-built",
+      slug: "hand-built",
+      parentSlug: "gallery",
+      title: "Hand built exhibit",
+      isPublished: true,
+      isNav: false,
+    });
+    fake.pages.set("edvisor", {
+      id: "page-edvisor",
+      slug: "edvisor",
+      parentSlug: "gallery",
+      title: "Edvisor — LMS Modernization",
+      isPublished: true,
+      isNav: true,
+    });
+    fake.sections.set("exhibit-phoenix", {
+      id: "section-exhibit-phoenix",
+      slug: "exhibit-phoenix",
+      type: "exhibit",
+      data: { title: "Phoenix" },
+    });
+    fake.placements.push({
+      id: "ps-phoenix",
+      pageId: "page-phoenix",
+      sectionId: "section-exhibit-phoenix",
+      sortOrder: 0,
+      displayHint: null,
+    });
+
+    const info = vi.spyOn(console, "info").mockImplementation(() => {});
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      const result = await syncResume(fake.prisma, projection);
+
+      expect(result.dryRun).toBe(false);
+      expect(result.retired).toEqual([
+        {
+          id: "page-phoenix",
+          slug: "phoenix",
+          title: "Phoenix — Investment Lifecycle Management",
+          projectId: "phoenix",
+          exhibitSlug: "exhibit-phoenix",
+          path: "/gallery/phoenix",
+        },
+      ]);
+      expect(info).toHaveBeenCalledWith(
+        expect.stringContaining(
+          'unpublished gallery exhibit id=page-phoenix slug=phoenix title="Phoenix — Investment Lifecycle Management" projectId=phoenix exhibitSlug=exhibit-phoenix path=/gallery/phoenix'
+        )
+      );
+
+      expect(fake.pages.get("phoenix")).toMatchObject({
+        isPublished: false,
+        slug: "phoenix",
+        parentSlug: "gallery",
+        title: "Phoenix — Investment Lifecycle Management",
+      });
+      expect(fake.sections.get("exhibit-phoenix")?.data).toEqual({ title: "Phoenix" });
+      expect(
+        fake.placements.some((row) => row.pageId === "page-phoenix")
+      ).toBe(true);
+      expect(fake.pages.get("hand-built")).toMatchObject({
+        isPublished: true,
+        title: "Hand built exhibit",
+      });
+      expect(fake.pages.get("edvisor")?.isPublished).toBe(true);
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining("refused to retire slug=edvisor")
+      );
+      expect(fake.pages.get("services")?.title).toBe("Services");
+      expect(fake.pages.get("gallery")?.title).toBe("Gallery");
+      expect(fake.pages.get("home")?.slug).toBe("home");
+      expect(fake.sections.get("hero-home")?.data).toEqual({ heading: "Keep me" });
+      expect(fake.deleted).toEqual([]);
+      expect(fake.updates).toEqual([{ id: "page-phoenix", isPublished: false }]);
+
+      info.mockClear();
+      const again = await syncResume(fake.prisma, projection);
+      expect(again.retired).toEqual([]);
+      expect(fake.pages.get("phoenix")?.isPublished).toBe(false);
+      expect(fake.updates).toEqual([{ id: "page-phoenix", isPublished: false }]);
+      expect(fake.deleted).toEqual([]);
+      expect(info).not.toHaveBeenCalled();
+    } finally {
+      info.mockRestore();
+      warn.mockRestore();
+    }
+  });
+
+  it("dry run reports the retirement and does not write", async () => {
+    const fake = createFakePrisma();
+    fake.pages.set("phoenix", {
+      id: "page-phoenix",
+      slug: "phoenix",
+      parentSlug: "gallery",
+      title: "Phoenix — Investment Lifecycle Management",
+      isPublished: true,
+      isNav: false,
+    });
+
+    const info = vi.spyOn(console, "info").mockImplementation(() => {});
+    try {
+      const result = await syncResume(fake.prisma, projection, { dryRun: true });
+
+      expect(result.dryRun).toBe(true);
+      expect(result.exhibits).toEqual([
+        "exhibit-resume-master",
+        "exhibit-homesalesone",
+      ]);
+      expect(result.retired.map((entry) => entry.slug)).toEqual(["phoenix"]);
+      expect(fake.pages.get("phoenix")?.isPublished).toBe(true);
+      expect(fake.pages.has("resume-master")).toBe(false);
+      expect(fake.pages.has("homesalesone")).toBe(false);
+      expect(fake.sections.has("exhibit-homesalesone")).toBe(false);
+      expect(fake.updates).toEqual([]);
+      expect(fake.deleted).toEqual([]);
+      expect(fake.pages.get("services")?.title).toBe("Services");
+      expect(info).toHaveBeenCalledWith(
+        expect.stringContaining("would unpublish gallery exhibit id=page-phoenix")
+      );
+    } finally {
+      info.mockRestore();
+    }
+  });
+
+  it("republishes a retired catalog page when the project returns", async () => {
+    const fake = createFakePrisma();
+    fake.pages.set("phoenix", {
+      id: "page-phoenix",
+      slug: "phoenix",
+      parentSlug: "gallery",
+      title: "Phoenix — Investment Lifecycle Management",
+      isPublished: true,
+      isNav: false,
+    });
+
+    const info = vi.spyOn(console, "info").mockImplementation(() => {});
+    try {
+      await syncResume(fake.prisma, projection);
+      expect(fake.pages.get("phoenix")?.isPublished).toBe(false);
+
+      const returned = await syncResume(fake.prisma, {
+        ...projection,
+        projects: [...projection.projects, { id: "phoenix", name: "Phoenix" }],
+      });
+
+      expect(returned.retired).toEqual([]);
+      expect(returned.exhibits).toContain("exhibit-phoenix");
+      expect(fake.pages.get("phoenix")).toMatchObject({
+        isPublished: true,
+        parentSlug: "gallery",
+        title: "Phoenix — Investment Lifecycle Management",
+      });
+      expect(fake.deleted).toEqual([]);
+    } finally {
+      info.mockRestore();
+    }
   });
 });
