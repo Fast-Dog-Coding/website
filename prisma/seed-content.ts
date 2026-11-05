@@ -10,6 +10,7 @@
  */
 
 import type { Prisma, PrismaClient } from "@prisma/client";
+import { HOME_HERO } from "../src/lib/site-copy";
 
 export async function seedStaticSite(prisma: PrismaClient): Promise<void> {
   async function createSection(
@@ -104,9 +105,8 @@ export async function seedStaticSite(prisma: PrismaClient): Promise<void> {
   const homeHero = await createSection(
     "hero",
     {
-      heading: "Listen carefully. Think deeply. Build deliberately.",
-      subheading:
-        "We focus on solving your problems the right way.",
+      heading: HOME_HERO.heading,
+      subheading: HOME_HERO.subheading,
       cta_label: "Explore the Gallery",
       cta_href: "/gallery",
     },

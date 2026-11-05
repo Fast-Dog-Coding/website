@@ -49,16 +49,8 @@ check_database() {
     return $?
   fi
 
-  # Fallback when psql is not on PATH
-  node --input-type=module -e "
-    import pg from 'pg';
-    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
-    try {
-      await pool.query('SELECT 1');
-    } finally {
-      await pool.end();
-    }
-  " 2>/dev/null
+  # Fallback when psql is not on PATH (same pool config as the app)
+  npx tsx scripts/check-db.ts 2>/dev/null
 }
 
 if ! check_database; then
