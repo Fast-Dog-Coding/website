@@ -1,6 +1,6 @@
 {
   "name": "@fastdogcoding/resume-master",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "main": "./index.cjs",
   "module": "./index.js",
@@ -14,8 +14,8 @@
   },
   "vendorStamp": {
     "clientId": "portfolio",
-    "version": "2.0.0",
-    "commit": "0ae59e5ee5a93c329762e8354ca57dd7ec8e41e7",
-    "generatedAt": "2026-11-04T22:17:37.070Z"
+    "version": "2.1.0",
+    "commit": "1d71be85118ef86ec595dd1b24987745920886c4",
+    "generatedAt": "2026-11-05T20:44:57.748Z"
   }
 }
