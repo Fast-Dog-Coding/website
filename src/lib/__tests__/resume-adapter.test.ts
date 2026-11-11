@@ -155,10 +155,11 @@ describe("getResume", () => {
   });
 
   it("rejects a response body that is not JSON", async () => {
+    const upstreamBody = "not-json upstream body must not leak";
     mockFetch({
       ok: true,
       status: 200,
-      body: "not-json",
+      body: upstreamBody,
     });
 
     try {
@@ -166,9 +167,12 @@ describe("getResume", () => {
       expect.fail("expected invalid JSON to throw");
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
-      const message = (error as Error).message;
-      expect(message).toMatch(/not valid JSON/);
-      expect(message).not.toContain(SECRET_KEY);
+      const thrown = error as Error;
+      expect(thrown.message).toBe("getResume request failed");
+      expect(thrown.cause).toBeUndefined();
+      const rendered = `${thrown.message}\n${thrown.stack ?? ""}`;
+      expect(rendered).not.toContain(upstreamBody);
+      expect(rendered).not.toContain(SECRET_KEY);
     }
   });
 });
