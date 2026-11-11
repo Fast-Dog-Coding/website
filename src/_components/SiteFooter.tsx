@@ -6,6 +6,7 @@
  * Source: TDS § 3 wireframe (lines 557–574)
  */
 
+import Link from "next/link";
 import { enrichCtaSectionData } from "@/lib/cta-channels";
 import { prisma } from "@/lib/prisma";
 import type { CtaSectionData } from "@/types";
@@ -51,24 +52,24 @@ export async function SiteFooter() {
         {/* Legal */}
         <div className="flex items-center gap-4 text-sm text-secondary">
           <span>&copy; {currentYear} <span className="text-primary">Fast Dog Coding, LLC.</span></span>
-          <a
+          <Link
             href="/testimonials"
             className="transition-colors duration-150 hover:text-accent"
           >
             Testimonials
-          </a>
-          <a
+          </Link>
+          <Link
             href="/legal"
             className="transition-colors duration-150 hover:text-accent"
           >
             Legal
-          </a>
-          <a
+          </Link>
+          <Link
             href="/privacy"
             className="transition-colors duration-150 hover:text-accent"
           >
             Privacy
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
