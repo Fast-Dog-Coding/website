@@ -9,7 +9,6 @@
 import { gqlFetch } from "@/lib/gql/fetch";
 import { PAGES_QUERY } from "@/lib/gql/queries";
 import { Card } from "@/_components/ui/Card";
-import { Tag } from "@/_components/ui/Tag";
 import type { PagesQueryResponse, ExhibitData } from "@/types";
 
 interface GalleryData {

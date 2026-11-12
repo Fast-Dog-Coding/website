@@ -9,6 +9,7 @@
  *   - Client Component handles active link state + mobile menu
  */
 
+import Link from "next/link";
 import { BrandLogo } from "@/_components/brand/BrandLogo";
 import { HeaderNav } from "@/_components/HeaderNav";
 import { gqlFetch } from "@/lib/gql/fetch";
@@ -21,12 +22,12 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <a
+        <Link
           href="/"
           className="rounded-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <BrandLogo variant="lockup" size="md" />
-        </a>
+        </Link>
         <HeaderNav navPages={navPages} />
       </div>
     </header>
