@@ -66,7 +66,7 @@ describe("SectionRenderer", () => {
     expect(screen.getByText("Person t-3")).toBeInTheDocument();
   });
 
-  it("does not group compact testimonials with full-mode blocks", () => {
+  it("does not group compact testimonials with full-mode blocks", async () => {
     const { container } = render(
       <SectionRenderer
         sections={[
@@ -81,7 +81,7 @@ describe("SectionRenderer", () => {
     expect(groupWrappers).toHaveLength(2);
     expect(screen.getByText("Person full-1")).toBeInTheDocument();
     expect(screen.getByText("Person full-2")).toBeInTheDocument();
-    expect(screen.getByText("View all testimonials")).toBeInTheDocument();
+    expect(await screen.findByText("View all testimonials")).toBeInTheDocument();
   });
 
   it("skips unknown section types without crashing", () => {

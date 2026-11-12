@@ -34,7 +34,8 @@ export function CompactTestimonialQuote({
       snippets.length > 0
         ? snippets[Math.floor(Math.random() * snippets.length)]
         : content;
-    setSnippet(pick);
+    const frame = requestAnimationFrame(() => setSnippet(pick));
+    return () => cancelAnimationFrame(frame);
   }, [snippets, content]);
 
   useEffect(() => {
