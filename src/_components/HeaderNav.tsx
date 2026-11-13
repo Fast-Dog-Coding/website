@@ -21,11 +21,6 @@ interface HeaderNavProps {
 export function HeaderNav({ navPages }: HeaderNavProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -36,7 +31,7 @@ export function HeaderNav({ navPages }: HeaderNavProps) {
   }, [mobileOpen]);
 
   const mobileMenu =
-    mobileOpen && mounted ? (
+    mobileOpen ? (
       <div className="fixed inset-0 top-16 z-40 bg-background md:hidden">
         <nav className="flex flex-col items-center gap-6 pt-12">
           {(navPages || []).map((page) => {

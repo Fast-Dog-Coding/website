@@ -29,7 +29,7 @@ Add a new page by seeding the database. Add a new section *type* by creating one
 
 ## Quick start
 
-**Prerequisites:** Node.js 20+, PostgreSQL
+**Prerequisites:** Node.js 26 (^26.13.0), PostgreSQL
 
 ```bash
 git clone https://github.com/Fast-Dog-Coding/website.git

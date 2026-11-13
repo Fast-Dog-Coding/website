@@ -3,14 +3,14 @@
  *
  * Standalone testimonial: full blockquote with name, role, and company.
  * Supports `displayHint: 'compact'` for pull-quote style rendering
- * (shows a single snippet instead of the full content).
+ * (delegates to CompactTestimonialQuote for client-side snippet pick + fade-in).
  *
  * Replaces both the old TestimonialGrid (individual items) and PullQuote
  * with a single reusable component.
  */
 
-import Link from "next/link";
 import { Card } from "@/_components/ui/Card";
+import { CompactTestimonialQuote } from "@/_components/sections/CompactTestimonialQuote";
 import type { TestimonialData } from "@/types";
 
 /** Split testimonial body into paragraphs (blank lines first, then single newlines). */
@@ -46,33 +46,14 @@ export function TestimonialSection({
 
   // Compact mode: pull-quote style (used on home page, exhibit pages)
   if (displayHint === "compact") {
-    const snippet =
-      snippets && snippets.length > 0
-        ? snippets[Math.floor(Math.random() * snippets.length)]
-        : content;
-
     return (
-      <section className="w-full py-16 md:py-24">
-        <div className="container mx-auto max-w-3xl px-4 text-center">
-          {/* Decorative accent bar */}
-          <div className="mx-auto mb-8 h-1 w-16 rounded-full bg-accent" />
-          <blockquote className="text-2xl md:text-3xl font-light italic text-primary leading-relaxed">
-            &ldquo;{snippet}&rdquo;
-          </blockquote>
-          <p className="mt-6 text-base text-secondary">
-            — {name}, {role}
-            {company && ` @ ${company}`}
-          </p>
-          <p className="mt-8">
-            <Link
-              href="/testimonials"
-              className="text-sm font-medium text-accent underline-offset-4 transition-colors duration-150 hover:text-accent-hover hover:underline"
-            >
-              View all testimonials
-            </Link>
-          </p>
-        </div>
-      </section>
+      <CompactTestimonialQuote
+        snippets={snippets ?? []}
+        content={content}
+        name={name}
+        role={role}
+        company={company}
+      />
     );
   }
 
